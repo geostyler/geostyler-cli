@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 
-import SLDParser from "geostyler-sld-parser";
-import QGISParser from "geostyler-qgis-parser";
+import SLDParser from 'geostyler-sld-parser';
+import QGISParser from 'geostyler-qgis-parser';
 // import OpenLayersParser from "geostyler-openlayers-parser";
-import MapfileParser from "geostyler-mapfile-parser";
-import MapboxParser from "geostyler-mapbox-parser";
+import MapfileParser from 'geostyler-mapfile-parser';
+import MapboxParser from 'geostyler-mapbox-parser';
 import { promises as fs } from 'fs';
 import minimist from 'minimist';
-import { StyleParser } from "geostyler-style";
+import { StyleParser } from 'geostyler-style';
+import { logHelp, logTitle } from './logHelper';
+import ora from 'ora';
 
-const getParserFromFormat = (inputString: string): StyleParser =>{
+const getParserFromFormat = (inputString: string): StyleParser => {
   if (!inputString) {
     return undefined;
   }
@@ -30,9 +32,9 @@ const getParserFromFormat = (inputString: string): StyleParser =>{
     default:
       return undefined;
   }
-}
+};
 
-const getParserFromFilename = (fileName: string): StyleParser =>{
+const getParserFromFilename = (fileName: string): StyleParser => {
   if (!fileName) {
     return undefined;
   }
@@ -51,25 +53,6 @@ const getParserFromFilename = (fileName: string): StyleParser =>{
     default:
       return undefined;
   }
-}
-
-const printHelp = () => {
-  console.log(`
-  ###################################
-  # GeoStyler Commandline Interface #
-  ###################################
-
-  Basic syntax:
-    npm start -- [options] inputfile
-  Example:
-    npm start -s sld -t mapfile -o myStyle.map testdata/point_simplepoint.sld
-
-  Options:
-    -s / --source : SourceParser. ["mapbox" | "mapfile" | "sld" | "qgis"]
-    -t / --target : TargetParser. ["mapbox" | "mapfile" | "sld" | "qgis"]
-    -o / --output : Outpuft filename. [string]
-    -h / --help: Display this help.
-  `);
 };
 
 async function main() {
@@ -83,53 +66,55 @@ async function main() {
     output,
     h,
     help,
-    _: unnamedArgs
+    _: unnamedArgs,
   } = args;
 
   if (h || help) {
-    printHelp();
+    logHelp();
     return;
   }
 
-  const sourceFile:string = unnamedArgs[0];
+  const sourceFile: string = unnamedArgs[0];
   const sourceFormat: string = s || source;
   const targetFormat: string = t || target;
   const targetFile: string = o || output;
 
+  const indicator = ora('Starting Geostyler CLI').start();
+
   if (!sourceFile) {
-    console.log('No input file specified.');
-    console.log('USE: `npm start -- [options] inputfile`');
+    indicator.fail('No input file specified.');
     return;
   }
 
-  let sourceParser = getParserFromFormat(sourceFormat) || getParserFromFilename(sourceFile);
-  let targetParser = getParserFromFormat(targetFormat) || getParserFromFilename(targetFile)
+  const sourceParser = getParserFromFormat(sourceFormat) || getParserFromFilename(sourceFile);
+  const targetParser = getParserFromFormat(targetFormat) || getParserFromFilename(targetFile);
   const inputFileData = await fs.readFile(sourceFile, 'utf-8');
 
   if (!sourceParser) {
-    console.log('No sourceparser was specified.');
+    indicator.fail('No sourceparser was specified.');
     return;
   }
   if (!targetParser) {
-    console.log('No targetparser was specified.');
+    indicator.fail('No targetparser was specified.');
     return;
   }
 
-  console.log(`Transforming file ${sourceFile} from ${sourceFormat} to ${targetFormat}`);
-  if (targetFile) {
-    console.log(`… output will be written to ${targetFile}`);
-  }
+  indicator.text = `Transforming file ${sourceFile} from ${sourceFormat} to ${targetFormat}`;
 
   try {
+    indicator.text = `Reading from ${sourceFile}`;
     const geostylerStyle = await sourceParser.readStyle(inputFileData);
+    indicator.text = `Writing to ${targetFile}`;
     const targetStyle = await targetParser.writeStyle(geostylerStyle);
     if (targetFile) {
-        fs.writeFile(targetFile, targetStyle, 'utf-8');
+      await fs.writeFile(targetFile, targetStyle, 'utf-8');
+      indicator.succeed(`Output written to ${targetFile}`);
     } else {
+      indicator.succeed('Output written to stdout:\n');
       console.log(targetStyle);
     }
   } catch (error) {
-    console.log(error);
+    indicator.fail('Error during translation: ' + error);
   }
 }
 
