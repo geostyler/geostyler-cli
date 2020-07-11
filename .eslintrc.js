@@ -1,9 +1,11 @@
 module.exports = {
   env: {
-    browser: true,
-    es2020: true
+    es2020: true,
+    node: true
   },
   extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
     'airbnb-base'
   ],
   parser: '@typescript-eslint/parser',
@@ -15,17 +17,9 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
-    'no-console': 'off',
+    'no-console': 'off', // we should get rid off this exception
     'no-unused-vars': 'off',
     'comma-dangle': ['warn', 'never'],
     '@typescript-eslint/no-unused-vars': 'error'
-  },
-  settings: {
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts']
-    },
-    'import/extensions': {
-      ts: 'never'
-    }
   }
 };
