@@ -8,8 +8,8 @@ import MapboxParser from 'geostyler-mapbox-parser';
 import { promises as fs } from 'fs';
 import minimist from 'minimist';
 import { StyleParser } from 'geostyler-style';
-import { logHelp, logTitle } from './logHelper';
 import ora from 'ora';
+import { logHelp } from './logHelper';
 
 const getParserFromFormat = (inputString: string): StyleParser => {
   if (!inputString) {
@@ -66,7 +66,7 @@ async function main() {
     output,
     h,
     help,
-    _: unnamedArgs,
+    _: unnamedArgs
   } = args;
 
   if (h || help) {
@@ -114,7 +114,7 @@ async function main() {
       console.log(targetStyle);
     }
   } catch (error) {
-    indicator.fail('Error during translation: ' + error);
+    indicator.fail(`Error during translation: ${error}`);
   }
 }
 

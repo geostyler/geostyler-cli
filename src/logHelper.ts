@@ -1,6 +1,6 @@
 import gradient from 'gradient-string';
 
-export const logTitle = () => {
+export const logTitle = () :void => {
   console.log(gradient('#611E82', '#272C82', '#00943D', '#FFED00', '#F48E00', '#E7000E').multiline(`
   ██████╗  ███████╗ ██████╗ ███████╗████████╗██╗   ██╗██╗     ███████╗██████╗
   ██╔════╝ ██╔════╝██╔═══██╗██╔════╝╚══██╔══╝╚██╗ ██╔╝██║     ██╔════╝██╔══██╗
@@ -9,9 +9,9 @@ export const logTitle = () => {
   ╚██████╔╝███████╗╚██████╔╝███████║   ██║      ██║   ███████╗███████╗██║  ██║
    ╚═════╝ ╚══════╝ ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚══════╝╚═╝  ╚═╝
   `));
-}
+};
 
-export const logHelp = () => {
+export const logHelp = () :void => {
   logTitle();
   console.log(`
   Basic syntax:
