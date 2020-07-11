@@ -8,7 +8,7 @@ import MapboxParser from 'geostyler-mapbox-parser';
 import { promises as fs } from 'fs';
 import minimist from 'minimist';
 import { StyleParser } from 'geostyler-style';
-import { logHelp, logTitle } from './logHelper';
+import { logHelp } from './logHelper';
 import ora from 'ora';
 
 const getParserFromFormat = (inputString: string): StyleParser => {
