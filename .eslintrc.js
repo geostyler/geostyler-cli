@@ -17,9 +17,11 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
-    'no-console': 'off', // we should get rid off this exception
-    'no-unused-vars': 'off',
+    'no-console': 'off', // we should get rid of this exception
+    'no-unused-vars': 'off', // because ts rule below takes care of this
+    '@typescript-eslint/no-unused-vars': 'error',
     'comma-dangle': ['warn', 'never'],
-    '@typescript-eslint/no-unused-vars': 'error'
+    'import/no-unresolved': 'off', // tsc takes care of warning about this
+    'import/extensions': 'off' // tsc does not want extensions and throws TS2691
   }
 };
