@@ -9,7 +9,7 @@ import { promises as fs } from 'fs';
 import minimist from 'minimist';
 import { StyleParser } from 'geostyler-style';
 import ora from 'ora';
-import { logHelp } from './logHelper';
+import { logHelp, logVersion } from './logHelper';
 
 const getParserFromFormat = (inputString: string): StyleParser => {
   if (!inputString) {
@@ -66,11 +66,18 @@ async function main() {
     output,
     h,
     help,
+    v,
+    version,
     _: unnamedArgs
   } = args;
 
   if (h || help) {
     logHelp();
+    return;
+  }
+
+  if (v || version) {
+    logVersion();
     return;
   }
 
