@@ -1,4 +1,5 @@
 import gradient from 'gradient-string';
+import { version } from '../package.json';
 
 export const logTitle = () :void => {
   console.log(gradient('#611E82', '#272C82', '#00943D', '#FFED00', '#F48E00', '#E7000E').multiline(`
@@ -27,5 +28,10 @@ export const logHelp = () :void => {
     -t / --target : TargetParser. ["mapbox" | "mapfile" | "sld" | "qgis"]
     -o / --output : Output filename. [string]
     -h / --help: Display this help.
+    -v / --version: Display the version of the program.
   `);
+};
+
+export const logVersion = () : void => {
+  console.log(`v${version}`);
 };
