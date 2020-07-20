@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "bin": {
+    "geostyler": "dist/index.js",
     "geostyler-cli": "dist/index.js"
   },
   "scripts": {
