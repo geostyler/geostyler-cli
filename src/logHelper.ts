@@ -25,7 +25,7 @@ export const logHelp = () :void => {
   Options:
     -s / --source : SourceParser. ["mapbox" | "mapfile" | "sld" | "qgis"]
     -t / --target : TargetParser. ["mapbox" | "mapfile" | "sld" | "qgis"]
-    -o / --output : Outpuft filename. [string]
+    -o / --output : Output filename. [string]
     -h / --help: Display this help.
   `);
 };
