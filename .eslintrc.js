@@ -1,9 +1,11 @@
 module.exports = {
   env: {
-    browser: true,
-    es2020: true
+    es2020: true,
+    node: true
   },
   extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
     'airbnb-base'
   ],
   parser: '@typescript-eslint/parser',
@@ -15,17 +17,11 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
-    'no-console': 'off',
-    'no-unused-vars': 'off',
+    'no-console': 'off', // we should get rid of this exception
+    'no-unused-vars': 'off', // because ts rule below takes care of this
+    '@typescript-eslint/no-unused-vars': 'error',
     'comma-dangle': ['warn', 'never'],
-    '@typescript-eslint/no-unused-vars': 'error'
-  },
-  settings: {
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts']
-    },
-    'import/extensions': {
-      ts: 'never'
-    }
+    'import/no-unresolved': 'off', // tsc takes care of warning about this
+    'import/extensions': 'off' // tsc does not want extensions and throws TS2691
   }
 };
