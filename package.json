@@ -8,7 +8,9 @@
     "geostyler-cli": "dist/src/index.js"
   },
   "scripts": {
+    "build:clean": "rimraf build/ dist/",
     "build-only": "tsc -p tsconfig.json",
+    "prebuild": "npm run build:clean",
     "build": "npm run lint && npm run build-only",
     "start": "node dist/src/index.js",
     "lint": "eslint . && tsc --noEmit --project tsconfig.json",
@@ -36,6 +38,7 @@
     "eslint": "^7.5.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
+    "rimraf": "^3.0.2",
     "typescript": "^3.9.7"
   },
   "dependencies": {
