@@ -2,14 +2,14 @@
   "name": "geostyler-cli",
   "version": "0.0.2",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "bin": {
-    "geostyler": "dist/index.js",
-    "geostyler-cli": "dist/index.js"
+    "geostyler": "dist/src/index.js",
+    "geostyler-cli": "dist/src/index.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "lint": "eslint . && tsc --noEmit --project tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
