@@ -16,18 +16,24 @@ export const logHelp = () :void => {
   logTitle();
   console.log(`
   Basic syntax:
-    npx geostyler-cli [options] inputfile
-    npm start -- [options] inputfile
+    npx geostyler-cli [options] [input_file | [input_directory]]
+    npm start -- [options] [input_file | input_directory]
 
   Example:
     npx geostyler-cli -s sld -t qgis -o output.qml [YOUR_SLD.sld]
     npm start -- -s sld -t mapfile -o myStyle.map testdata/point_simplepoint.sld
 
   Options:
-    -s / --source : SourceParser. ["mapbox" | "mapfile" | "sld" | "qgis"]
-    -t / --target : TargetParser. ["mapbox" | "mapfile" | "sld" | "qgis"]
-    -o / --output : Output filename. [string]
-    -h / --help: Display this help.
+    -h / --help   : Display this help.
+    -o / --output : Output filename or directory. Required. [string]
+    -s / --source : SourceParser, either "mapbox", "mapfile" or "map", "sld",
+                    "qgis" or "qml". If not given, it will be guessed from the
+                    extension of the output file. Mandatory if the the target
+                    is a directory.
+    -t / --target : Target parser, either "mapbox", "mapfile" or "map", "sld",
+                    "qgis" or "qml". If not given, it will be guessed from the
+                    extension of the output file. Mandatory if the the target
+                    is a directory. Mapfiles are currently not supported as target.
     -v / --version: Display the version of the program.
   `);
 };

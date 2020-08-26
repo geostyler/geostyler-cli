@@ -52,18 +52,32 @@ npm uninstall -g geostyler-cli
 
 ## Syntax
 
+On a single file:
+
 ```
 geostyler [options] -o /path/to/output.ext /path/to/input.ext
 ```
 
+On a directory:
+
+```
+geostyler [options] -t qgis -o /path/to/output /path/to/input/
+```
+
 ## Options
 
-* `-o` / `--output` Output filename. Required.
-* `-s` / `--source` Source parser, either `mapbox`, `mapfile`, `sld` or `qgis`.
-If not given, it will be guessed from the extension of the input file.
-* `-t` / `--target` Target parser, either `mapbox`, `mapfile`, `sld` or `qgis`.
-If not given, it will be guessed from the extension of the output file.
 * `-h` / `--help` Display the help and exit.
+* `-o` / --output` Output filename or directory. Required. [string]
+* `-s` / `--source` Source parser, either `mapbox`, `mapfile` or `map`, `sld`,
+`qgis` or `qml`. If not given, it will be guessed from
+the extension of the input file. Mandatory if the the target
+is a directory.
+* `-t` / `--target` Target parser, either `mapbox`, `sld`,
+`qgis` or `qml`. If not given, it will be guessed from
+the extension of the output file. Mandatory if the the target
+is a directory.
+Mapfiles are currently not supported as target.
+* `-v` / --version` Display the version of the program.
 
 ## Developing
 
