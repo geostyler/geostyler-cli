@@ -40,7 +40,7 @@
   "dependencies": {
     "@types/node": "^14.0.24",
     "geostyler-mapbox-parser": "^0.1.0",
-    "geostyler-mapfile-parser": "0.0.2",
+    "geostyler-mapfile-parser": "0.0.3",
     "geostyler-openlayers-parser": "^2.1.0",
     "geostyler-qgis-parser": "^0.2.3",
     "geostyler-sld-parser": "^2.0.1",
