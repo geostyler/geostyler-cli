@@ -5,17 +5,22 @@ import QGISParser from 'geostyler-qgis-parser';
 // import OpenLayersParser from "geostyler-openlayers-parser";
 import MapfileParser from 'geostyler-mapfile-parser';
 import MapboxParser from 'geostyler-mapbox-parser';
-import { existsSync, lstatSync, promises, readdir } from 'fs';
+import {
+  existsSync,
+  lstatSync,
+  promises,
+  readdir
+} from 'fs';
 import minimist from 'minimist';
 import { StyleParser } from 'geostyler-style';
-import ora from 'ora';
+import ora, { Ora } from 'ora';
 import { logHelp, logVersion } from './logHelper';
 
 const ensureTrailingSlash = (inputString: string): string => {
   if (!inputString) {
     return inputString;
   }
-  return inputString[inputString.length - 1] === '/' ? inputString: `${inputString}/`;
+  return inputString[inputString.length - 1] === '/' ? inputString : `${inputString}/`;
 };
 
 const getParserFromFormat = (inputString: string): StyleParser => {
@@ -69,7 +74,7 @@ const getExtensionFromFormat = (format: string): string => {
   switch (format.toLowerCase()) {
     case 'openlayers':
     case 'ol':
-       return 'ts';
+      return 'ts';
     case 'mapfile':
       return 'map';
     case 'qgis':
@@ -87,22 +92,23 @@ const tryRemoveExtension = (fileName: string): string => {
     return splittedFileName.join('.');
   }
   return fileName;
-}
+};
 
 const computeTargetPath = (
   sourcePathFile: string,
   outputPath: string,
   targetIsFile: boolean,
-  targetFormat: string): string => {
-    if (targetIsFile) {
-      // Case file -> file
-      return outputPath;
-    }
-    // Case file -> directory
-    // Get output name from source and add extension.
-    const pathElements = sourcePathFile.split('/');
-    const targetFileName = tryRemoveExtension(pathElements.pop());
-    return `${ensureTrailingSlash(outputPath)}${targetFileName}.${getExtensionFromFormat(targetFormat)}`;
+  targetFormat: string
+): string => {
+  if (targetIsFile) {
+    // Case file -> file
+    return outputPath;
+  }
+  // Case file -> directory
+  // Get output name from source and add extension.
+  const pathElements = sourcePathFile.split('/');
+  const targetFileName = tryRemoveExtension(pathElements.pop());
+  return `${ensureTrailingSlash(outputPath)}${targetFileName}.${getExtensionFromFormat(targetFormat)}`;
 };
 
 async function collectPaths(basePath: string, isFile: boolean): Promise<string[]> {
@@ -111,7 +117,10 @@ async function collectPaths(basePath: string, isFile: boolean): Promise<string[]
       resolve([basePath]);
     } else {
       readdir(basePath, (error, files) => {
-        error ? reject(error) : resolve(files.map((file) =>`${ensureTrailingSlash(basePath)}${file}`));
+        if (error) {
+          reject(error);
+        }
+        resolve(files.map((file) => `${ensureTrailingSlash(basePath)}${file}`));
       });
     }
   });
@@ -120,9 +129,10 @@ async function collectPaths(basePath: string, isFile: boolean): Promise<string[]
 async function writeFile(
   sourceFile: string, sourceParser: StyleParser,
   targetFile: string, targetParser: StyleParser,
-  indicator: any) {
-
+  oraIndicator: Ora
+) {
   const inputFileData = await promises.readFile(sourceFile, 'utf-8');
+  const indicator = oraIndicator; // for linter.
 
   try {
     indicator.text = `Reading from ${sourceFile}`;
@@ -139,7 +149,7 @@ async function writeFile(
   } catch (error) {
     indicator.fail(`Error during translation of file "${sourceFile}": ${error}`);
   }
-};
+}
 
 async function main() {
   // Parse args
@@ -170,7 +180,7 @@ async function main() {
 
   // Assign args
   const sourcePath: string = unnamedArgs[0];
-  const sourceFormat: string = s || sourcePath;
+  const sourceFormat: string = s || source || sourcePath;
   const targetFormat: string = t || target;
   const outputPath: string = o || output;
 
@@ -203,7 +213,8 @@ async function main() {
   }
 
   // Get source and target parser.
-  const sourceParser = getParserFromFormat(sourceFormat) || (sourceIsFile && getParserFromFilename(sourcePath));
+  const sourceParser = getParserFromFormat(sourceFormat)
+  || (sourceIsFile && getParserFromFilename(sourcePath));
   const targetParser = getParserFromFormat(targetFormat) || getParserFromFilename(outputPath);
   if (!sourceParser) {
     indicator.fail('No sourceparser was specified.');
@@ -217,17 +228,16 @@ async function main() {
   // Get source(s) path(s).
   const sourcePaths = await collectPaths(sourcePath, sourceIsFile);
 
-  const loopFn = async () => {
-    for (let i = 0; i < sourcePaths.length; i++) {
-      const srcPath = sourcePaths[i];
-      indicator.text = `Transforming ${srcPath} from ${sourceFormat} to ${targetFormat}`;
-      // Get correct output path
-      const outputPathFile = computeTargetPath(srcPath, outputPath, targetIsFile, targetFormat);
-      // Apply the translation.
-      await writeFile(srcPath, sourceParser, outputPathFile, targetParser, indicator);
-    }
-  }
-  await loopFn();
+  const writePromises = [];
+  sourcePaths.forEach((srcPath) => {
+    indicator.text = `Transforming ${srcPath} from ${sourceFormat} to ${targetFormat}`;
+    // Get correct output path
+    const outputPathFile = computeTargetPath(srcPath, outputPath, targetIsFile, targetFormat);
+    // Add the the translation promise.
+    writePromises.push(writeFile(srcPath, sourceParser, outputPathFile, targetParser, indicator));
+  });
+
+  await Promise.all(writePromises);
 }
 
 main();
