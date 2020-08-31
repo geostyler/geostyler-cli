@@ -77,7 +77,7 @@ is a directory.
 the extension of the output file. Mandatory if the the target
 is a directory.
 Mapfiles are currently not supported as target.
-* `-v` / --version` Display the version of the program.
+* `-v` / `--version` Display the version of the program.
 
 ## Developing
 
