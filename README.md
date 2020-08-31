@@ -67,7 +67,7 @@ geostyler [options] -t qgis -o /path/to/output /path/to/input/
 ## Options
 
 * `-h` / `--help` Display the help and exit.
-* `-o` / --output` Output filename or directory. Required. [string]
+* `-o` / `--output` Output filename or directory. Required. [string]
 * `-s` / `--source` Source parser, either `mapbox`, `mapfile` or `map`, `sld`,
 `qgis` or `qml`. If not given, it will be guessed from
 the extension of the input file. Mandatory if the the target
