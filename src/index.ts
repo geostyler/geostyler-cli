@@ -18,7 +18,7 @@ import { logHelp, logVersion } from './logHelper';
 
 const ensureTrailingSlash = (inputString: string): string => {
   if (!inputString) {
-    return inputString;
+    return '';
   }
   return inputString[inputString.length - 1] === '/' ? inputString : `${inputString}/`;
 };
