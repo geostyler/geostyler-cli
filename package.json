@@ -8,7 +8,8 @@
     "geostyler-cli": "dist/src/index.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build-only": "tsc -p tsconfig.json",
+    "build": "npm run lint && npm run build-only",
     "start": "node dist/src/index.js",
     "lint": "eslint . && tsc --noEmit --project tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
