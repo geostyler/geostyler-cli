@@ -49,7 +49,7 @@
     "geostyler-openlayers-parser": "^2.1.0",
     "geostyler-qgis-parser": "^0.2.3",
     "geostyler-sld-parser": "^2.0.1",
-    "geostyler-style": "^2.1.0",
+    "geostyler-style": "^3.0.0",
     "gradient-string": "^1.2.0",
     "minimist": "^1.2.5",
     "ol": "^6.3.1",
