@@ -54,6 +54,6 @@
     "minimist": "^1.2.5",
     "ol": "^6.3.1",
     "ora": "^5.4.0",
-    "terminal-image": "^1.2.0"
+    "terminal-image": "^2.0.0"
   }
 }
