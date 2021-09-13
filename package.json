@@ -60,7 +60,7 @@
     "gradient-string": "^1.2.0",
     "minimist": "^1.2.5",
     "ol": "^6.5.0",
-    "ora": "^5.4.0",
+    "ora": "^6.0.0",
     "terminal-image": "^2.0.0"
   }
 }
