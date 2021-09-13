@@ -37,7 +37,7 @@
     "npm": ">=6.0.0"
   },
   "devDependencies": {
-    "@terrestris/eslint-config-typescript": "^1.0.0",
+    "@terrestris/eslint-config-typescript": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "@typescript-eslint/parser": "^4.26.0",
     "eslint": "^7.28.0",
