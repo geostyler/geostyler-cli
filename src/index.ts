@@ -14,7 +14,10 @@ import {
 import minimist from 'minimist';
 import { StyleParser } from 'geostyler-style';
 import ora, { Ora } from 'ora';
-import { logHelp, logVersion } from './logHelper';
+import {
+  logHelp,
+  logVersion
+} from './logHelper.js';
 
 const ensureTrailingSlash = (inputString: string): string => {
   if (!inputString) {
@@ -23,9 +26,9 @@ const ensureTrailingSlash = (inputString: string): string => {
   return inputString[inputString.length - 1] === '/' ? inputString : `${inputString}/`;
 };
 
-const getParserFromFormat = (inputString: string): StyleParser => {
+const getParserFromFormat = (inputString: string): StyleParser | undefined => {
   if (!inputString) {
-    return undefined;
+    throw new Error('No input');
   }
   switch (inputString.toLowerCase()) {
     // case 'openlayers':
@@ -46,7 +49,7 @@ const getParserFromFormat = (inputString: string): StyleParser => {
   }
 };
 
-const getParserFromFilename = (fileName: string): StyleParser => {
+const getParserFromFilename = (fileName: string): StyleParser | undefined => {
   if (!fileName) {
     return undefined;
   }
@@ -88,7 +91,7 @@ const tryRemoveExtension = (fileName: string): string => {
   const possibleExtensions = ['js', 'ts', 'mapbox', 'map', 'sld', 'qml'];
   const splittedFileName = fileName.split('.');
   const sourceFileExtension = splittedFileName.pop();
-  if (possibleExtensions.includes(sourceFileExtension.toLowerCase())) {
+  if (sourceFileExtension && possibleExtensions.includes(sourceFileExtension.toLowerCase())) {
     return splittedFileName.join('.');
   }
   return fileName;
@@ -107,8 +110,13 @@ const computeTargetPath = (
   // Case file -> directory
   // Get output name from source and add extension.
   const pathElements = sourcePathFile.split('/');
-  const targetFileName = tryRemoveExtension(pathElements.pop());
-  return `${ensureTrailingSlash(outputPath)}${targetFileName}.${getExtensionFromFormat(targetFormat)}`;
+  const lastElement = pathElements?.pop();
+  if (typeof lastElement) {
+    const targetFileName = tryRemoveExtension(lastElement as string);
+    return `${ensureTrailingSlash(outputPath)}${targetFileName}.${getExtensionFromFormat(targetFormat)}`;
+  } else {
+    return '';
+  }
 };
 
 async function collectPaths(basePath: string, isFile: boolean): Promise<string[]> {
@@ -228,7 +236,7 @@ async function main() {
   // Get source(s) path(s).
   const sourcePaths = await collectPaths(sourcePath, sourceIsFile);
 
-  const writePromises = [];
+  const writePromises: Promise<void>[] = [];
   sourcePaths.forEach((srcPath) => {
     indicator.text = `Transforming ${srcPath} from ${sourceFormat} to ${targetFormat}`;
     // Get correct output path
