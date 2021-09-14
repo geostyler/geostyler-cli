@@ -11,7 +11,7 @@
     "build": "npm run build-clean && npm run build-only",
     "build-clean": "rimraf build/ dist/",
     "build-only": "tsc -p tsconfig.json",
-    "npm ": "npm run lint && npm run build-only",
+    "lint:build": "npm run lint && npm run build",
     "start": "node dist/src/index.js",
     "lint": "eslint . && tsc --noEmit --project tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -37,6 +37,7 @@
     "npm": ">=6.0.0"
   },
   "devDependencies": {
+    "@types/node": "^16.9.1",
     "@terrestris/eslint-config-typescript": "^2.0.0",
     "@types/gradient-string": "^1.1.2",
     "@typescript-eslint/eslint-plugin": "^4.31.0",
@@ -47,7 +48,6 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
-    "@types/node": "^16.9.1",
     "geostyler-mapbox-parser": "^1.0.0",
     "geostyler-mapfile-parser": "^1.0.0",
     "geostyler-openlayers-parser": "^2.3.1",
