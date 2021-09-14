@@ -3,6 +3,9 @@
   "version": "0.0.2",
   "description": "",
   "main": "dist/src/index.js",
+  "files": [
+    "dist"
+  ],
   "bin": {
     "geostyler": "dist/src/index.js",
     "geostyler-cli": "dist/src/index.js"
