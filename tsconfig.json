@@ -1,12 +1,17 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist",
-    "resolveJsonModule": true
-  },
-  "lib": ["es2015"]
+    "module": "commonjs",
+    "outDir": "./dist",
+    "lib": [
+      "DOM",
+      "ES6"
+    ],
+    "rootDir": ".",
+    "strict": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
+  }
 }
