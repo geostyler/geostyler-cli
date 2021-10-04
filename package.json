@@ -54,7 +54,7 @@
   "dependencies": {
     "geostyler-mapbox-parser": "^1.0.0",
     "geostyler-mapfile-parser": "^1.0.0",
-    "geostyler-openlayers-parser": "^2.3.1",
+    "geostyler-openlayers-parser": "^3.0.0",
     "geostyler-qgis-parser": "^0.3.0",
     "geostyler-sld-parser": "^2.3.0",
     "geostyler-style": "^4.0.3",
