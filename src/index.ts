@@ -229,7 +229,7 @@ async function main() {
     return;
   }
   if (!targetParser) {
-    indicator.info('No targetparser was specified. Output will be a Geostyler object.');
+    indicator.info('No targetparser was specified. Output will be a GeoStyler object.');
   }
 
   // Get source(s) path(s).
