@@ -36,6 +36,7 @@ export const logHelp = () :void => {
                     "qgis" or "qml". If not given, it will be guessed from the
                     extension of the output file. Mandatory if the the target
                     is a directory. Mapfiles are currently not supported as target.
+                    If not set GeoStyler objects will be output as JSON.
     -v / --version: Display the version of the program.
   `);
 };
