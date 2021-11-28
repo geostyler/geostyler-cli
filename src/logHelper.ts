@@ -25,7 +25,9 @@ export const logHelp = () :void => {
 
   Options:
     -h / --help   : Display this help.
-    -o / --output : Output filename or directory. Required. [string]
+    -o / --output : Output filename or directory. Mandatory if the target
+                    is a directory. If not provided for a single file then output
+                    will be written to stdout. [string]
     -s / --source : SourceParser, either "mapbox", "mapfile" or "map", "sld",
                     "qgis" or "qml". If not given, it will be guessed from the
                     extension of the output file. Mandatory if the the target
