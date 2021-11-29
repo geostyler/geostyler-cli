@@ -25,15 +25,18 @@ export const logHelp = () :void => {
 
   Options:
     -h / --help   : Display this help.
-    -o / --output : Output filename or directory. Required. [string]
+    -o / --output : Output filename or directory. Mandatory if the target
+                    is a directory. If not provided for a single file then output
+                    will be written to stdout. [string]
     -s / --source : SourceParser, either "mapbox", "mapfile" or "map", "sld",
                     "qgis" or "qml". If not given, it will be guessed from the
                     extension of the output file. Mandatory if the the target
                     is a directory.
-    -t / --target : Target parser, either "mapbox", "mapfile" or "map", "sld",
-                    "qgis" or "qml". If not given, it will be guessed from the
-                    extension of the output file. Mandatory if the the target
-                    is a directory. Mapfiles are currently not supported as target.
+    -t / --target : Target parser, either "mapbox", "sld", "qgis" or "qml".
+                    Mapfiles are currently not supported as target.
+                    Mandatory if the the target is a directory. If not given and cannot
+                    be guessed from the extension of the output file, the output will
+                    default to GeoStyler objects represented as JSON.
     -v / --version: Display the version of the program.
   `);
 };

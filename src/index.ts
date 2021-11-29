@@ -136,7 +136,7 @@ async function collectPaths(basePath: string, isFile: boolean): Promise<string[]
 
 async function writeFile(
   sourceFile: string, sourceParser: StyleParser,
-  targetFile: string, targetParser: StyleParser,
+  targetFile: string, targetParser: StyleParser | undefined,
   oraIndicator: Ora
 ) {
   const inputFileData = await promises.readFile(sourceFile, 'utf-8');
@@ -146,7 +146,7 @@ async function writeFile(
     indicator.text = `Reading from ${sourceFile}`;
     const geostylerStyle = await sourceParser.readStyle(inputFileData);
     indicator.text = `Writing to ${targetFile}`;
-    const targetStyle = await targetParser.writeStyle(geostylerStyle);
+    const targetStyle = targetParser ? await targetParser.writeStyle(geostylerStyle) : JSON.stringify(geostylerStyle);
     if (targetFile) {
       await promises.writeFile(targetFile, targetStyle, 'utf-8');
       indicator.succeed(`File "${sourceFile}" translated successfully. Output written to ${targetFile}`);
@@ -229,8 +229,7 @@ async function main() {
     return;
   }
   if (!targetParser) {
-    indicator.fail('No targetparser was specified.');
-    return;
+    indicator.info('No targetparser was specified. Output will be a GeoStyler object.');
   }
 
   // Get source(s) path(s).
