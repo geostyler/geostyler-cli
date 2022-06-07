@@ -107,6 +107,11 @@ const computeTargetPath = (
     // Case file -> file
     return outputPath;
   }
+  
+  // Change any Windows-style paths to Linux-style
+  sourcePathFile = sourcePathFile.split('\\').join('/');
+  outputPath = outputPath.split('\\').join('/');
+
   // Case file -> directory
   // Get output name from source and add extension.
   const pathElements = sourcePathFile.split('/');
