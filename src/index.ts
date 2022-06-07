@@ -54,6 +54,9 @@ const getParserFromFilename = (fileName: string): StyleParser | undefined => {
     return undefined;
   }
   const fileEnding = fileName.split('.')[1];
+  if (!fileEnding) {
+    return undefined;
+  }
   switch (fileEnding.toLowerCase()) {
     // case 'ol':
     //   return new OpenLayersParser();
