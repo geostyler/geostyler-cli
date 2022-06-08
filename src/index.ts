@@ -18,12 +18,13 @@ import {
   logHelp,
   logVersion
 } from './logHelper.js';
+import path from 'path';
 
 const ensureTrailingSlash = (inputString: string): string => {
   if (!inputString) {
     return '';
   }
-  return inputString[inputString.length - 1] === '/' ? inputString : `${inputString}/`;
+  return inputString[inputString.length - 1] === path.sep ? inputString : `${inputString}` + path.sep;
 };
 
 const getParserFromFormat = (inputString: string): StyleParser | undefined => {
@@ -110,9 +111,14 @@ const computeTargetPath = (
     // Case file -> file
     return outputPath;
   }
+  
+  // ensure all path separators are correct for the platform
+  sourcePathFile = path.normalize(sourcePathFile);
+  outputPath = path.normalize(outputPath);
+
   // Case file -> directory
   // Get output name from source and add extension.
-  const pathElements = sourcePathFile.split('/');
+  const pathElements = sourcePathFile.split(path.sep);
   const lastElement = pathElements?.pop();
   if (typeof lastElement) {
     const targetFileName = tryRemoveExtension(lastElement as string);
