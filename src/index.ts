@@ -18,6 +18,7 @@ import {
   logHelp,
   logVersion
 } from './logHelper.js';
+import path from 'path';
 
 const ensureTrailingSlash = (inputString: string): string => {
   if (!inputString) {
@@ -109,8 +110,8 @@ const computeTargetPath = (
   }
   
   // Change any Windows-style paths to Linux-style
-  sourcePathFile = sourcePathFile.split('\\').join('/');
-  outputPath = outputPath.split('\\').join('/');
+  sourcePathFile = sourcePathFile.split(path.sep).join(path.posix.sep);
+  outputPath = outputPath.split(path.sep).join(path.posix.sep);
 
   // Case file -> directory
   // Get output name from source and add extension.
