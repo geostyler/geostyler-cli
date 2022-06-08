@@ -24,7 +24,7 @@ const ensureTrailingSlash = (inputString: string): string => {
   if (!inputString) {
     return '';
   }
-  return inputString[inputString.length - 1] === '/' ? inputString : `${inputString}/`;
+  return inputString[inputString.length - 1] === path.sep ? inputString : `${inputString}` + path.sep;
 };
 
 const getParserFromFormat = (inputString: string): StyleParser | undefined => {
@@ -109,13 +109,13 @@ const computeTargetPath = (
     return outputPath;
   }
   
-  // Change any Windows-style paths to Linux-style
-  sourcePathFile = sourcePathFile.split(path.sep).join(path.posix.sep);
-  outputPath = outputPath.split(path.sep).join(path.posix.sep);
+  // ensure all path separators are correct for the platform
+  sourcePathFile = path.normalize(sourcePathFile);
+  outputPath = path.normalize(outputPath);
 
   // Case file -> directory
   // Get output name from source and add extension.
-  const pathElements = sourcePathFile.split('/');
+  const pathElements = sourcePathFile.split(path.sep);
   const lastElement = pathElements?.pop();
   if (typeof lastElement) {
     const targetFileName = tryRemoveExtension(lastElement as string);
