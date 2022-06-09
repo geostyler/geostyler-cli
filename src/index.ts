@@ -111,7 +111,7 @@ const computeTargetPath = (
     // Case file -> file
     return outputPath;
   }
-  
+
   // ensure all path separators are correct for the platform
   sourcePathFile = path.normalize(sourcePathFile);
   outputPath = path.normalize(outputPath);
@@ -153,15 +153,49 @@ async function writeFile(
 
   try {
     indicator.text = `Reading from ${sourceFile}`;
-    const geostylerStyle = await sourceParser.readStyle(inputFileData);
-    indicator.text = `Writing to ${targetFile}`;
-    const targetStyle = targetParser ? await targetParser.writeStyle(geostylerStyle) : JSON.stringify(geostylerStyle);
-    if (targetFile) {
-      await promises.writeFile(targetFile, targetStyle, 'utf-8');
-      indicator.succeed(`File "${sourceFile}" translated successfully. Output written to ${targetFile}`);
-    } else {
-      indicator.succeed(`File "${sourceFile}" translated successfully. Output written to stdout:\n`);
-      console.log(targetStyle);
+    const {
+      errors: readErrors,
+      warnings: readWarnings,
+      unsupportedProperties: readUnsupportedProperties,
+      output: readOutput
+    } = await sourceParser.readStyle(inputFileData);
+    if (readErrors) {
+      throw readErrors;
+    }
+    if (readWarnings) {
+      readWarnings.map(console.warn);
+    }
+    if (readUnsupportedProperties) {
+      console.log(`Source parser ${sourceParser.title} does not support the following properties:`);
+      console.log(readUnsupportedProperties);
+    }
+    if (readOutput) {
+      indicator.text = `Writing to ${targetFile}`;
+      if (targetParser) {
+        const {
+          output: writeOutput,
+          errors: writeErrors,
+          warnings: writeWarnings,
+          unsupportedProperties: writeUnsupportedProperties
+        } = await targetParser.writeStyle(readOutput);
+        if (writeErrors) {
+          throw writeErrors;
+        }
+        if (writeWarnings) {
+          writeWarnings.map(console.warn);
+        }
+        if (writeUnsupportedProperties) {
+          console.log(`Target parser ${targetParser.title} does not support the following properties:`);
+          console.log(writeUnsupportedProperties);
+        }
+        if (targetFile) {
+          await promises.writeFile(targetFile, writeOutput, 'utf-8');
+          indicator.succeed(`File "${sourceFile}" translated successfully. Output written to ${targetFile}`);
+        } else {
+          indicator.succeed(`File "${sourceFile}" translated successfully. Output written to stdout:\n`);
+          console.log(writeOutput);
+        }
+      }
     }
   } catch (error) {
     indicator.fail(`Error during translation of file "${sourceFile}": ${error}`);
@@ -230,9 +264,9 @@ async function main() {
   }
 
   // Get source and target parser.
-  const sourceParser = getParserFromFormat(sourceFormat)
-  || (sourceIsFile && getParserFromFilename(sourcePath));
-  const targetParser = getParserFromFormat(targetFormat) || getParserFromFilename(outputPath);
+  const sourceParser = sourceFormat && getParserFromFormat(sourceFormat)
+    || (sourceIsFile && getParserFromFilename(sourcePath));
+  const targetParser = targetFormat && getParserFromFormat(targetFormat) || getParserFromFilename(outputPath);
   if (!sourceParser) {
     indicator.fail('No sourceparser was specified.');
     return;

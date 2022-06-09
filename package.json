@@ -18,7 +18,7 @@
     "start": "node dist/src/index.js",
     "lint": "eslint . && tsc --noEmit --project tsconfig.json",
     "test": "echo \"No test specified\"",
-    "release": "np --no-yarn && git push https://github.com/geostyler/geostyler-cli.git master"
+    "release": "np --no-yarn --no-tests && git push https://github.com/geostyler/geostyler-cli.git master"
   },
   "repository": {
     "type": "git",
@@ -42,25 +42,25 @@
   },
   "devDependencies": {
     "@types/node": "^16.9.1",
-    "@terrestris/eslint-config-typescript": "^2.0.0",
+    "@terrestris/eslint-config-typescript": "^2.1.0",
     "@types/gradient-string": "^1.1.2",
-    "@typescript-eslint/eslint-plugin": "^4.31.0",
-    "@typescript-eslint/parser": "^4.31.0",
-    "eslint": "^7.32.0",
-    "np": "^7.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
+    "eslint": "^8.17.0",
+    "np": "^7.6.1",
     "rimraf": "^3.0.2",
-    "typescript": "^4.4.3"
+    "typescript": "^4.7.3"
   },
   "dependencies": {
-    "geostyler-mapbox-parser": "^1.0.0",
-    "geostyler-mapfile-parser": "^1.0.0",
-    "geostyler-openlayers-parser": "^2.3.1",
-    "geostyler-qgis-parser": "^0.3.0",
-    "geostyler-sld-parser": "^2.3.0",
-    "geostyler-style": "^4.0.3",
-    "gradient-string": "^1.2.0",
-    "minimist": "^1.2.5",
-    "ol": "^6.7.0",
+    "geostyler-mapbox-parser": "^2.0.0",
+    "geostyler-mapfile-parser": "^2.0.0",
+    "geostyler-openlayers-parser": "^3.0.2",
+    "geostyler-qgis-parser": "^1.0.0",
+    "geostyler-sld-parser": "^3.2.2",
+    "geostyler-style": "^5.1.0",
+    "gradient-string": "^2.0.1",
+    "minimist": "^1.2.6",
+    "ol": "^6.14.1",
     "ora": "5.4.1",
     "terminal-image": "^2.0.0"
   }
