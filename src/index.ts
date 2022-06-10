@@ -170,6 +170,7 @@ async function writeFile(
       console.log(readUnsupportedProperties);
     }
     if (readOutput) {
+      let output;
       indicator.text = `Writing to ${targetFile}`;
       if (targetParser) {
         const {
@@ -188,13 +189,16 @@ async function writeFile(
           console.log(`Target parser ${targetParser.title} does not support the following properties:`);
           console.log(writeUnsupportedProperties);
         }
-        if (targetFile) {
-          await promises.writeFile(targetFile, writeOutput, 'utf-8');
-          indicator.succeed(`File "${sourceFile}" translated successfully. Output written to ${targetFile}`);
-        } else {
-          indicator.succeed(`File "${sourceFile}" translated successfully. Output written to stdout:\n`);
-          console.log(writeOutput);
-        }
+        output = writeOutput;
+      } else {
+        output = JSON.stringify(readOutput, undefined, 2);
+      }
+      if (targetFile) {
+        await promises.writeFile(targetFile, output, 'utf-8');
+        indicator.succeed(`File "${sourceFile}" translated successfully. Output written to ${targetFile}`);
+      } else {
+        indicator.succeed(`File "${sourceFile}" translated successfully. Output written to stdout:\n`);
+        console.log(output);
       }
     }
   } catch (error) {
