@@ -8,8 +8,9 @@ import MapboxParser from 'geostyler-mapbox-parser';
 import {
   existsSync,
   lstatSync,
-  readdirSync,
-  promises
+  mkdirSync,
+  promises,
+  readdirSync
 } from 'fs';
 import minimist from 'minimist';
 import { StyleParser } from 'geostyler-style';
@@ -19,7 +20,6 @@ import {
   logVersion
 } from './logHelper.js';
 import path from 'path';
-import { mkdirSync } from 'fs';
 
 const ensureTrailingSlash = (inputString: string): string => {
   if (!inputString) {
@@ -125,8 +125,8 @@ const computeTargetPath = (
   const lastElement = pathElements?.pop();
   pathElements.shift();
 
-  const finalPatheElements = [outputPath, pathElements];
-  const finalPath = finalPatheElements.join(path.sep);
+  const finalPathElements = [outputPath, pathElements];
+  const finalPath = finalPathElements.join(path.sep);
 
   if (typeof lastElement) {
     const targetFileName = tryRemoveExtension(lastElement as string);
@@ -277,7 +277,7 @@ async function main() {
 
   // Dir to file is not possible
   if (!sourceIsFile && targetIsFile) {
-    indicator.fail('The source is a directory, then the target must be directory too.');
+    indicator.fail('The source is a directory, so the target must be directory, too.');
     return;
   }
 
