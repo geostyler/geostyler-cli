@@ -8,8 +8,8 @@ import MapboxParser from 'geostyler-mapbox-parser';
 import {
   existsSync,
   lstatSync,
-  promises,
-  readdir
+  readdirSync,
+  promises
 } from 'fs';
 import minimist from 'minimist';
 import { StyleParser } from 'geostyler-style';
@@ -19,12 +19,13 @@ import {
   logVersion
 } from './logHelper.js';
 import path from 'path';
+import { mkdirSync } from 'fs';
 
 const ensureTrailingSlash = (inputString: string): string => {
   if (!inputString) {
     return '';
   }
-  return inputString[inputString.length - 1] === path.sep ? inputString : `${inputString}` + path.sep;
+  return inputString.at(- 1) === path.sep ? inputString : `${inputString}` + path.sep;
 };
 
 const getParserFromFormat = (inputString: string): StyleParser | undefined => {
@@ -122,27 +123,38 @@ const computeTargetPath = (
   // Get output name from source and add extension.
   const pathElements = sourcePathFile.split(path.sep);
   const lastElement = pathElements?.pop();
+  pathElements.shift();
+
+  const finalPatheElements = [outputPath, pathElements];
+  const finalPath = finalPatheElements.join(path.sep);
+
   if (typeof lastElement) {
     const targetFileName = tryRemoveExtension(lastElement as string);
-    return `${ensureTrailingSlash(outputPath)}${targetFileName}.${getExtensionFromFormat(targetFormat)}`;
+    if (!existsSync(finalPath)){
+      mkdirSync(finalPath, { recursive: true });
+    }
+    return `${ensureTrailingSlash(finalPath)}${targetFileName}.${getExtensionFromFormat(targetFormat)}`;
   } else {
     return '';
   }
 };
 
-async function collectPaths(basePath: string, isFile: boolean): Promise<string[]> {
-  return new Promise((resolve, reject) => {
-    if (isFile) {
-      resolve([basePath]);
-    } else {
-      readdir(basePath, (error, files) => {
-        if (error) {
-          reject(error);
-        }
-        resolve(files.map((file) => `${ensureTrailingSlash(basePath)}${file}`));
-      });
-    }
-  });
+function collectPaths(basePath: string, isFile: boolean): string[] {
+  if (isFile) {
+    return [basePath];
+  } else {
+    const files = readdirSync(basePath);
+    const parts: string [] = [];
+    files.forEach((file) => {
+      const fileIsFile = lstatSync(`${ensureTrailingSlash(basePath)}${file}`).isFile();
+      if (fileIsFile) {
+        parts.push(`${ensureTrailingSlash(basePath)}${file}`);
+      } else {
+        parts.push(...collectPaths(`${ensureTrailingSlash(basePath)}${file}`, false));
+      }
+    });
+    return parts;
+  }
 }
 
 async function writeFile(
@@ -257,15 +269,15 @@ async function main() {
   const sourceIsFile = lstatSync(sourcePath).isFile();
 
   // Try to define type of target (file or dir).
-  let targetIsFile = true;
+  let targetIsFile = false;
   const outputExists = existsSync(outputPath);
   if (outputExists) {
     targetIsFile = lstatSync(outputPath).isFile();
   }
 
   // Dir to file is not possible
-  if (!sourceIsFile && (targetIsFile || !outputExists)) {
-    indicator.fail('The source is a directory, then the target must be an existing directory');
+  if (!sourceIsFile && targetIsFile) {
+    indicator.fail('The source is a directory, then the target must be directory too.');
     return;
   }
 
@@ -282,13 +294,14 @@ async function main() {
   }
 
   // Get source(s) path(s).
-  const sourcePaths = await collectPaths(sourcePath, sourceIsFile);
+  const sourcePaths = collectPaths(sourcePath, sourceIsFile);
 
   const writePromises: Promise<void>[] = [];
   sourcePaths.forEach((srcPath) => {
     indicator.text = `Transforming ${srcPath} from ${sourceFormat} to ${targetFormat}`;
     // Get correct output path
     const outputPathFile = computeTargetPath(srcPath, outputPath, targetIsFile, targetFormat);
+
     // Add the the translation promise.
     writePromises.push(writeFile(srcPath, sourceParser, outputPathFile, targetParser, indicator));
   });
