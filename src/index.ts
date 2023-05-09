@@ -253,8 +253,8 @@ async function main() {
   const targetFormat: string = t || target;
   const outputPath: string = o || output;
 
-  // Instanciate progress indicator
-  const indicator = ora('Starting Geostyler CLI').start();
+  // Instantiate progress indicator
+  const indicator = ora({text: 'Starting Geostyler CLI', stream: process.stdout}).start();
 
   // Check source path arg.
   if (!sourcePath) {
