@@ -269,10 +269,10 @@ async function main() {
   const sourceIsFile = lstatSync(sourcePath).isFile();
 
   // Try to define type of target (file or dir).
-  let targetIsFile = false;
+  let targetIsFile = true;
   const outputExists = existsSync(outputPath);
-  if (outputExists) {
-    targetIsFile = lstatSync(outputPath).isFile();
+  if (outputExists && lstatSync(outputPath).isDirectory()) {
+    targetIsFile = false;
   }
 
   // Dir to file is not possible
