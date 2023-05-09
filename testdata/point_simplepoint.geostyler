@@ -1,0 +1,19 @@
+{
+  "name": "Simple Point",
+  "rules": [
+    {
+      "name": "",
+      "symbolizers": [
+        {
+          "kind": "Mark",
+          "wellKnownName": "circle",
+          "fillOpacity": 0.5,
+          "color": "#FF0000",
+          "radius": 3,
+          "strokeColor": "#0000FF",
+          "strokeOpacity": 0.7
+        }
+      ]
+    }
+  ]
+}

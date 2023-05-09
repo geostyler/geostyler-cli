@@ -1,0 +1,24 @@
+MAP
+    SYMBOL
+        NAME "circle"
+        TYPE ELLIPSE
+        POINTS
+            1 1
+        END
+        FILLED TRUE
+    END
+    LAYER
+        NAME "Simple Point"
+        TYPE POINT
+        STATUS ON
+        SIZEUNITS PIXELS
+        CLASS
+            NAME "default"
+            STYLE
+                SYMBOL "circle"
+                COLOR "#FF0000"
+                OUTLINECOLOR "#0000FF"
+            END
+        END
+    END
+END

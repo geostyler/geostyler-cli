@@ -1,0 +1,64 @@
+name: Test Push to Master
+
+on:
+  push:
+    branches:
+      #- master
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Cache Node.js modules 💾
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.OS }}-node-
+          ${{ runner.OS }}-
+
+    - name: Install dependencies ⏬
+      run: npm install
+
+    - name: Lint code 💄
+      run: npm run lint
+
+    - name: Build artifacts 🏗️
+      run: npm run build
+
+    - name: Test sld to qgis
+      run: |
+        npm start -- -s sld -t qgis -o output.qml testdata/point_simplepoint.sld
+        if ! [ -f output.qml ]; then
+          exit 1
+        fi
+        
+    - name: Test qgis to sld
+      run: |
+        npm start -- -s qgis -t qgis -o output.sld testdata/point_simple.qml
+        if ! [ -f output.sld ]; then
+          exit 1
+        fi
+
+    - name: Test mapfile to geostyler
+      run: |
+        npm start -- -s mapfile -o output.json testdata/point_simplepoint.map
+        if ! [ -f output.json ]; then
+          exit 1
+        fi
+
