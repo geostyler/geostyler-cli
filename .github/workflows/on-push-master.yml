@@ -41,13 +41,16 @@ jobs:
     - name: Build artifacts 🏗️
       run: npm run build
 
+    - name: Test code ✅
+      run: npm run test
+
     - name: Test sld to qgis
       run: |
         npm start -- -s sld -t qgis -o output.qml testdata/point_simplepoint.sld
         if ! [ -f output.qml ]; then
           exit 1
         fi
-        
+
     - name: Test qgis to sld
       run: |
         npm start -- -s qgis -t qgis -o output.sld testdata/point_simple.qml
