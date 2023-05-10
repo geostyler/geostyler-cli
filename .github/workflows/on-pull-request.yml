@@ -1,9 +1,6 @@
-name: Test Push to Master
+name: Test Pull Request
 
-on:
-  push:
-    branches:
-      - master
+on: pull_request
 
 jobs:
   build:
@@ -42,5 +39,4 @@ jobs:
 
     - name: Test code ✅
       run: npm run test
-
 
