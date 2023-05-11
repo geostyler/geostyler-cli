@@ -125,7 +125,7 @@ const computeTargetPath = (
   const lastElement = pathElements?.pop();
   pathElements.shift();
 
-  const finalPathElements = [outputPath, pathElements];
+  const finalPathElements = [outputPath, pathElements].flat();
   const finalPath = finalPathElements.join(path.sep);
 
   if (typeof lastElement) {
@@ -269,11 +269,9 @@ async function main() {
   const sourceIsFile = lstatSync(sourcePath).isFile();
 
   // Try to define type of target (file or dir).
-  let targetIsFile = false;
+  // Assume the target is the same as the source
+  let targetIsFile = sourceIsFile;
   const outputExists = existsSync(outputPath);
-  if (outputExists) {
-    targetIsFile = lstatSync(outputPath).isFile();
-  }
 
   // Dir to file is not possible
   if (!sourceIsFile && targetIsFile) {

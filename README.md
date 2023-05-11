@@ -37,6 +37,13 @@ You can then use the new `geostyler` command, e.g.:
 geostyler -s sld -t qgis -o output.qml input.sld
 ```
 
+To process a folder of files:
+
+```
+geostyler -s sld -t qgis -o /outputdir /inputdir
+```
+
+
 ### Update 🚀
 
 ```
