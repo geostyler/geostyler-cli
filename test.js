@@ -3,7 +3,7 @@ const { spawnSync } = require('child_process');
 
 function checkFileCreated(outputFile) {
   try {
-    fs.accessSync(path, fs.constants.F_OK);
+    fs.accessSync(outputFile, fs.constants.F_OK);
     return true;
   } catch (err) {
     /* eslint-disable no-console */
@@ -19,8 +19,6 @@ function runTest(args, outputFile) {
   console.log(`Status: ${result.status.toString()}`);
   console.log(`Output: ${result.stdout.toString()}`);
   console.log(`Error: ${result.stderr.toString()}`);
-
-  return checkFileCreated(outputFile);
 }
 
 function runAllTests() {
@@ -30,24 +28,39 @@ function runAllTests() {
   // test sld to qgis
   let outputFile = 'output.qml';
   let args = ['start', '--', '-s', 'sld', '-t', 'qgis', '-o', outputFile, 'testdata/point_simplepoint.sld'];
+  runTest(args, outputFile);
 
-  if (runTest(args, outputFile) === false) {
+  if (checkFileCreated(outputFile) === false) {
     success = false;
   }
 
   // test qgis to sld
   outputFile = 'output.sld';
   args = ['start', '--', '-s', 'qgis', '-t', 'sld', '-o', outputFile, 'testdata/point_simple.qml'];
+  runTest(args, outputFile);
 
-  if (runTest(args, outputFile) === false) {
+  if (checkFileCreated(outputFile) === false) {
     success = false;
   }
 
   // test mapfile to geostyler
   outputFile = 'output.map';
   args = ['start', '--', '-s', 'mapfile', '-o', outputFile, 'testdata/point_simplepoint.map'];
+  runTest(args, outputFile);
 
-  if (runTest(args, outputFile) === false) {
+  if (checkFileCreated(outputFile) === false) {
+    success = false;
+  }
+
+  // test folder output
+  args = ['start', '--', '-s', 'sld', '-t', 'qgis', '-o', './output', 'testdata'];
+  runTest(args, outputFile);
+
+  if (checkFileCreated('./output/point_simplepoint.qml') === false) {
+    success = false;
+  }
+
+  if (checkFileCreated('./output/point_simpletriangle.qml') === false) {
     success = false;
   }
 
