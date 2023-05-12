@@ -1,0 +1,34 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources 🔰
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 18 👷🏻
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies ⏬
+        run: npm ci
+
+      - name: Build artifacts 🏗️
+        run: npm run build
+
+      - name: Release 🚀
+        uses: cycjimmy/semantic-release-action@v3
+        id: semantic
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Update README.md 📄
+        run: |
+          sed -i "s/Documentation:.*/Documentation: [main](https:\/\/geostyler.github.io\/geostyler\/main\/index.html) \/ [latest](https:\/\/geostyler.github.io\/geostyler\/latest\/index.html) \/ [${{ steps.semantic.outputs.new_release_version }}](https:\/\/geostyler.github.io\/geostyler\/v${{ steps.semantic.outputs.new_release_version }}\/index.html)/g" README.md
