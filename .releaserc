@@ -23,7 +23,7 @@
       {
         // TODO add zipped binaries
         "assets": [
-          "CHANGELOG.md", "package.json", "package-lock.json"
+          "./binaries/geostyler-cli-linux.zip", "./binaries/geostyler-cli-macos.zip", "./binaries/geostyler-cli-win.exe.zip"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
