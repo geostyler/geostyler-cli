@@ -1,27 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-const zlib = require('zlib');
+const AdmZip = require('adm-zip');
+
 
 // Define the folder path and the list of file names
 const folderPath = './binaries/';
 const fileNames = ['geostyler-cli-win.exe', 'geostyler-cli-linux', 'geostyler-cli-macos'];
-
-function zipFile(filePath, outputFilePath) {
-  return new Promise((resolve, reject) => {
-    const gzip = zlib.createGzip();
-    const input = fs.createReadStream(filePath);
-    const output = fs.createWriteStream(outputFilePath);
-    input.pipe(gzip).pipe(output);
-
-    output.on('finish', () => {
-      resolve();
-    });
-
-    output.on('error', (error) => {
-      reject(error);
-    });
-  });
-}
 
 function renameFile(oldPath, newPath) {
   return new Promise((resolve, reject) => {
@@ -47,10 +31,14 @@ async function processFiles() {
 
       // Zip the file
       const outputZipFilePath = filePath + '.zip';
-      await zipFile(renamedFilePath, outputZipFilePath);
-      // Rename the zipped file back to its original name
-      await renameFile(outputZipFilePath, filePath);
+      const zip = new AdmZip();
+      zip.addLocalFile(renamedFilePath);
 
+      // Save the zip archive
+      zip.writeZip(outputZipFilePath);
+
+      // Rename the zipped file back to its original name
+      await renameFile(renamedFilePath, filePath);
       console.log(`Processed file: ${fileName}`);
     }
 

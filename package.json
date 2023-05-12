@@ -19,12 +19,16 @@
     "lint": "eslint . && tsc --noEmit --project tsconfig.json",
     "test": "node test.js",
     "build-binaries": "npm run build && pkg package.json",
-    "package-binaries": "node package-binaries.js"    
+    "package-binaries": "node package-binaries.js"
   },
   "pkg": {
-    "targets": ["node18-linux-x64", "node18-macos-x64", "node18-win-x64"],
+    "targets": [
+      "node18-linux-x64",
+      "node18-macos-x64",
+      "node18-win-x64"
+    ],
     "outputPath": "./binaries"
-  },  
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/geostyler/geostyler-cli.git"
@@ -51,6 +55,7 @@
     "@types/node": "^18.16.1",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
+    "adm-zip": "^0.5.10",
     "eslint": "^8.39.0",
     "np": "^7.7.0",
     "pkg": "^5.8.1",
