@@ -96,3 +96,11 @@ npm run build # build from possibly changed source
 # now you can call your build like this:
 npm start -- -s sld -t qgis -o output.qml testdata/point_simplepoint.sld
 ```
+
+## <a name="funding"></a>Funding & financial sponsorship
+
+Maintenance and further development of this code can be funded through the
+[GeoStyler Open Collective](https://opencollective.com/geostyler). All contributions and
+expenses can transparently be reviewed by anyone; you see what we use the donated money for.
+Thank you for any financial support you give the GeoStyler project 💞
+
