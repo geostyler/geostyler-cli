@@ -12,7 +12,7 @@
       {
         "preset": "conventionalcommits",
         "presetConfig": {
-          "header": "Changelog of GeoStyler"
+          "header": "Changelog of GeoStyler Client"
         }
       }
     ],
@@ -21,7 +21,6 @@
     [
       "@semantic-release/git",
       {
-        // TODO add zipped binaries
         "assets": [
           "./binaries/geostyler-cli-linux.zip", "./binaries/geostyler-cli-macos.zip", "./binaries/geostyler-cli-win.exe.zip"
         ],
