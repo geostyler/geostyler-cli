@@ -63,5 +63,6 @@
     "ol": "^7.3.0",
     "ora": "5.4.1",
     "terminal-image": "^2.0.0"
-  }
+  },
+  "funding": "https://opencollective.com/geostyler"
 }
