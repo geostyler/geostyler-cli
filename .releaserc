@@ -22,11 +22,20 @@
       "@semantic-release/git",
       {
         "assets": [
-          "./binaries/geostyler-cli-linux.zip", "./binaries/geostyler-cli-macos.zip", "./binaries/geostyler-cli-win.exe.zip"
+          "CHANGELOG.md", "package.json", "package-lock.json"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ],
-    "@semantic-release/github"
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {"path": "./binaries/geostyler-cli-linux.zip", "label": "Linux executable"},
+          {"path": "./binaries/geostyler-cli-macos.zip", "label": "MacOS executable"},
+          {"path": "./binaries/geostyler-cli-win.exe.zip", "label": "Windows executable"}
+        ]
+      }
+    ]
   ]
 }
