@@ -31,9 +31,9 @@
       "@semantic-release/github",
       {
         "assets": [
-          {"path": "./binaries/geostyler-cli-linux.zip", "label": "Linux executable"},
-          {"path": "./binaries/geostyler-cli-macos.zip", "label": "MacOS executable"},
-          {"path": "./binaries/geostyler-cli-win.exe.zip", "label": "Windows executable"}
+          {"path": "./binaries/geostyler-cli-linux.zip", "label": "GeoStyler CLI Linux executable"},
+          {"path": "./binaries/geostyler-cli-macos.zip", "label": "GeoStyler CLI MacOS executable"},
+          {"path": "./binaries/geostyler-cli-win.exe.zip", "label": "GeoStyler CLI Windows executable"}
         ]
       }
     ]
