@@ -22,9 +22,9 @@ jobs:
       - name: Build artifacts 🏗️
         run: npm run package-binaries
 
-      #- name: Release 🚀
-      #  uses: cycjimmy/semantic-release-action@v3
-      #  id: semantic
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-      #    NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Release 🚀
+        uses: cycjimmy/semantic-release-action@v3
+        id: semantic
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
