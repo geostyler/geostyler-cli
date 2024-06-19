@@ -67,12 +67,12 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "geostyler-mapbox-parser": "^3.1.1",
+    "geostyler-mapbox-parser": "^5.0.1",
     "geostyler-mapfile-parser": "^3.0.0",
-    "geostyler-openlayers-parser": "^4.1.2",
-    "geostyler-qgis-parser": "^2.0.0",
-    "geostyler-sld-parser": "^5.0.1",
-    "geostyler-style": "^7.2.0",
+    "geostyler-openlayers-parser": "^4.3.0",
+    "geostyler-qgis-parser": "^2.0.1",
+    "geostyler-sld-parser": "^5.3.1",
+    "geostyler-style": "^8.1.0",
     "gradient-string": "^2.0.2",
     "minimist": "^1.2.8",
     "ol": "^7.3.0",

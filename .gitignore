@@ -1,2 +1,7 @@
 node_modules
 dist
+
+output-bulk
+output.map
+output.qml
+output.sld
