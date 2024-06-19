@@ -11,21 +11,34 @@ npx geostyler-cli --output new-qgis-style.qml my-existing.sld
 
 ## Requirements
 
-Requires [Node.js](https://nodejs.org/) and
-[npx](https://www.npmjs.com/package/npx) or [npm](https://www.npmjs.com/), both usually come with Node.js.
+`geostyler-cli` can either be run as a standalone application or installed using [Node.js](https://nodejs.org/).
+
+## Standalone application
+
+Binaries are available for Linux, MacOS, and Windows on the 
+[Releases](https://github.com/geostyler/geostyler-cli/releases) page.
+Download the zip file for your operating system, unzip, navigate to the folder
+and run the `geostyler` command:
+
+```
+geostyler --output new-qgis-style.qml my-existing.sld
+```
 
 ## Usage without installation ⚡
+
+`Node.js` includes [npx](https://docs.npmjs.com/cli/v10/commands/npx), this
+allows you to run commands from an npm package without having to install it.
 
 ```
 npx geostyler-cli -s sld -t qgis -o output.qml input.sld
 ```
 
-
 ## Global installation
 
 ### Installation 💾
 
-Once:
+`Node.js` includes [npm](https://docs.npmjs.com/cli/v10/commands/npm) - the
+JavaScript package manager. To install the `geostyler` command globally:
 
 ```
 npm install -g geostyler-cli
@@ -80,7 +93,7 @@ geostyler [options] -t qgis -o /path/to/output /path/to/input/
 the extension of the input file. Mandatory if the the target
 is a directory.
 * `-t` / `--target` Target parser, either `mapbox`, `sld` (for SLD 1.0), `se` (for SLD 1.1),
-`qgis` or `qml`. If not given, it will be guessed from
+and `qgis` or `qml` for QGIS QML files. If not given, it will be guessed from
 the extension of the output file. Mandatory if the the target
 is a directory.
 Mapfiles are currently not supported as target.
