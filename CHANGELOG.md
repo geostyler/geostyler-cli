@@ -1,3 +1,10 @@
+## [3.1.3](https://github.com/geostyler/geostyler-cli/compare/v3.1.2...v3.1.3) (2024-06-19)
+
+
+### Bug Fixes
+
+* ensure published assets have correct version ([#386](https://github.com/geostyler/geostyler-cli/issues/386)) ([91e4019](https://github.com/geostyler/geostyler-cli/commit/91e4019c1ccf2d466fd01c0ad32c0e18e4c3fa83))
+
 ## [3.1.2](https://github.com/geostyler/geostyler-cli/compare/v3.1.1...v3.1.2) (2024-06-19)
 
 
