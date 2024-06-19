@@ -74,7 +74,7 @@
     "geostyler-style": "^8.1.0",
     "gradient-string": "^2.0.2",
     "minimist": "^1.2.8",
-    "ol": "^7.3.0",
+    "ol": "^9.0.0",
     "ora": "5.4.1",
     "terminal-image": "^2.0.0"
   },
