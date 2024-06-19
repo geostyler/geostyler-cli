@@ -1,3 +1,10 @@
+## [3.1.4](https://github.com/geostyler/geostyler-cli/compare/v3.1.3...v3.1.4) (2024-06-19)
+
+
+### Bug Fixes
+
+* re-add build step ([1607cf4](https://github.com/geostyler/geostyler-cli/commit/1607cf4601926bb3fb87db66917103c5bfeb9017))
+
 ## [3.1.3](https://github.com/geostyler/geostyler-cli/compare/v3.1.2...v3.1.3) (2024-06-19)
 
 
