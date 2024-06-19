@@ -19,7 +19,8 @@
     "lint": "eslint . && tsc --noEmit --project tsconfig.json",
     "test": "node test.js",
     "build-binaries": "npm run build && pkg package.json",
-    "package-binaries": "npm run build-binaries && node package-binaries.js"
+    "package-binaries": "npm run build-binaries && node package-binaries.js",
+    "postpublish": "npm run package-binaries"
   },
   "pkg": {
     "targets": [
