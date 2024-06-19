@@ -70,33 +70,50 @@ npm uninstall -g geostyler-cli
 ```
 
 
-## Syntax
+## Syntax and examples
 
-On a single file:
+To convert a single file:
 
-```
+```bash
 geostyler [options] -o /path/to/output.ext /path/to/input.ext
+# example, relying on file extensions to select the parsers
+geostyler -o point_simple.sld testdata/point_simple.qml
+# example with explicit parsers
+geostyler -s qml -t sld -o point_simple.sld testdata/point_simple.qml
 ```
 
-On a directory:
+To convert all files in a directory:
 
-```
+```bash
 geostyler [options] -t qgis -o /path/to/output /path/to/input/
+# example
+geostyler -s sld -t qgis -o ./output-sld testdata/sld
+```
+
+To output the GeoStyler format to `stdout` (only available for a single file), don't
+set an output file or parser:
+
+```bash
+geostyler [options] /path/to/input.ext
+# print the GeoStyler format to stdout (relying on the file extension to select the parser)
+geostyler testdata/point_simple.qml
+# print an SLD output to stdout
+geostyler -t sld testdata/point_simple.qml
 ```
 
 ## Options
 
 * `-h` / `--help` Display the help and exit.
-* `-o` / `--output` Output filename or directory. Required. [string]
-* `-s` / `--source` Source parser, either `mapbox`, `mapfile` or `map`, `sld` (for SLD 1.0), `se` (for SLD 1.1),
-`qgis` or `qml`. If not given, it will be guessed from
-the extension of the input file. Mandatory if the the target
-is a directory.
+* `-o` / `--output` Output filename or directory. Required when the source is a directory.
+For a file leave this empty to write to `stdout`. [string]
+* `-s` / `--source` Source parser, either `mapbox`, `mapfile` or `map`, 
+`sld` or `se` for SLD - the parser will read the version from the file,
+and `qgis` or `qml` for QGIS QML files. If not given, it will be guessed from the extension of the input file. 
+Mandatory if the the target is a directory.
 * `-t` / `--target` Target parser, either `mapbox`, `sld` (for SLD 1.0), `se` (for SLD 1.1),
 and `qgis` or `qml` for QGIS QML files. If not given, it will be guessed from
-the extension of the output file. Mandatory if the the target
-is a directory.
-Mapfiles are currently not supported as target.
+the extension of the output file. Mapfiles are not currently supported as target.
+Mandatory if the the target is a directory.
 * `-v` / `--version` Display the version of the program.
 
 ## Developing
