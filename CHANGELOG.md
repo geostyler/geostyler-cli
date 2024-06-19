@@ -1,3 +1,10 @@
+## [3.1.2](https://github.com/geostyler/geostyler-cli/compare/v3.1.1...v3.1.2) (2024-06-19)
+
+
+### Bug Fixes
+
+* **deps:** update dependency ol to v9 ([ee3609c](https://github.com/geostyler/geostyler-cli/commit/ee3609c07522b547c72ffbc63c3690c57fcfbf7d))
+
 ## [3.1.1](https://github.com/geostyler/geostyler-cli/compare/v3.1.0...v3.1.1) (2023-05-31)
 
 
