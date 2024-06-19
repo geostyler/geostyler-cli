@@ -17,26 +17,26 @@ export const logHelp = () :void => {
   console.log(`
   Basic syntax:
     npx geostyler-cli [options] [input_file | [input_directory]]
-    npm start -- [options] [input_file | input_directory]
+    geostyler [options] [input_file | input_directory]
 
   Example:
     npx geostyler-cli -s sld -t qgis -o output.qml [YOUR_SLD.sld]
-    npm start -- -s sld -t mapfile -o myStyle.map testdata/point_simplepoint.sld
-
+    geostyler -s qml -t mapfile -o myStyle.map testdata/point_simple.qml
+    geostyler -s sld -t qgis -o ./output-sld testdata/sld
+    
   Options:
-    -h / --help   : Display this help.
-    -o / --output : Output filename or directory. Mandatory if the target
-                    is a directory. If not provided for a single file then output
-                    will be written to stdout. [string]
-    -s / --source : SourceParser, either "mapbox", "mapfile" or "map", "sld",
-                    "qgis" or "qml". If not given, it will be guessed from the
-                    extension of the output file. Mandatory if the the target
-                    is a directory.
-    -t / --target : Target parser, either "mapbox", "sld", "qgis" or "qml".
-                    Mapfiles are currently not supported as target.
-                    Mandatory if the the target is a directory. If not given and cannot
-                    be guessed from the extension of the output file, the output will
-                    default to GeoStyler objects represented as JSON.
+    -h / --help   : Display this help and exit.
+    -o / --output : Output filename or directory. Required when the source is a directory.
+                    For a file leave this empty to write to stdout. [string]
+    -s / --source : Source parser, either "mapbox", "mapfile" or "map", 
+                    "sld" or "se" for SLD - the parser will read the version from the file,
+                    and "qgis" or "qml" for QGIS QML files. If not given, it will be guessed from the extension of the input file. 
+                    Mandatory if the the target is a directory.
+    -t / --target : Target parser, either "mapbox", "sld" (for SLD 1.0), "se" (for SLD 1.1),
+                    and "qgis" or "qml" for QGIS QML files. 
+                    If not given, it will be guessed from the extension of the output file. 
+                    Mapfiles are not currently supported as target.
+                    Mandatory if the the target is a directory.
     -v / --version: Display the version of the program.
   `);
 };
