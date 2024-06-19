@@ -25,7 +25,7 @@ async function processFiles() {
   try {
     for (const fileName of fileNames) {
       const filePath = folderPath + fileName;
-      const renamedFilePath = folderPath + fileName.replace('-win', '').replace('-macos', '').replace('-linux', '');
+      const renamedFilePath = folderPath + fileName.replace('-cli-win', '').replace('-cli-macos', '').replace('-cli-linux', '');
 
       // Rename the file
       await renameFile(filePath, renamedFilePath);
