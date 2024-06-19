@@ -27,7 +27,7 @@ function runAllTests() {
 
   // test sld to qgis
   let outputFile = 'output.qml';
-  let args = ['start', '--', '-s', 'sld', '-t', 'qgis', '-o', outputFile, 'testdata/point_simplepoint.sld'];
+  let args = ['start', '--', '-s', 'sld', '-t', 'qgis', '-o', outputFile, 'testdata/sld/point_simplepoint.sld'];
   runTest(args, outputFile);
 
   if (checkFileCreated(outputFile) === false) {
@@ -53,14 +53,14 @@ function runAllTests() {
   }
 
   // test folder output
-  args = ['start', '--', '-s', 'sld', '-t', 'qgis', '-o', './output', 'testdata'];
+  args = ['start', '--', '-s', 'sld', '-t', 'qgis', '-o', './output-bulk', 'testdata/sld'];
   runTest(args, outputFile);
 
-  if (checkFileCreated('./output/point_simplepoint.qml') === false) {
+  if (checkFileCreated('./output-bulk/sld/point_simplepoint.qml') === false) {
     success = false;
   }
 
-  if (checkFileCreated('./output/point_simpletriangle.qml') === false) {
+  if (checkFileCreated('./output-bulk/sld/point_simpletriangle.qml') === false) {
     success = false;
   }
 
