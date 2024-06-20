@@ -17,12 +17,12 @@ export const logHelp = () :void => {
   console.log(`
   Basic syntax:
     npx geostyler-cli [options] [input_file | [input_directory]]
-    geostyler [options] [input_file | input_directory]
+    geostyler-cli [options] [input_file | input_directory]
 
   Example:
     npx geostyler-cli -s sld -t qgis -o output.qml [YOUR_SLD.sld]
-    geostyler -s qml -t mapfile -o myStyle.map testdata/point_simple.qml
-    geostyler -s sld -t qgis -o ./output-sld testdata/sld
+    geostyler-cli -s qml -t mapfile -o myStyle.map testdata/point_simple.qml
+    geostyler-cli -s sld -t qgis -o ./output-sld testdata/sld
     
   Options:
     -h / --help   : Display this help and exit.

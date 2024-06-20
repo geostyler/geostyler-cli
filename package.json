@@ -7,7 +7,6 @@
     "dist"
   ],
   "bin": {
-    "geostyler": "dist/src/index.js",
     "geostyler-cli": "dist/src/index.js"
   },
   "scripts": {
