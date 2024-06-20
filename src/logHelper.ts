@@ -1,5 +1,5 @@
 import gradient from 'gradient-string';
-import { version } from '../package.json';
+import version from './version';
 
 export const logTitle = () :void => {
   console.log(gradient('#611E82', '#272C82', '#00943D', '#FFED00', '#F48E00', '#E7000E').multiline(`
