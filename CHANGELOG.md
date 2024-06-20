@@ -1,3 +1,14 @@
+## [4.0.0](https://github.com/geostyler/geostyler-cli/compare/v3.1.5...v4.0.0) (2024-06-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* Remove the geostyler command. Use geostyler-cli instead.
+
+### Features
+
+* consolidate geostyler commands ([4addec8](https://github.com/geostyler/geostyler-cli/commit/4addec81e459bf5a0cdd4f1df838f884193235df))
+
 ## [3.1.5](https://github.com/geostyler/geostyler-cli/compare/v3.1.4...v3.1.5) (2024-06-20)
 
 
