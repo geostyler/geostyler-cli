@@ -20,6 +20,7 @@
     "test": "node test.js",
     "build-binaries": "npm run build && pkg package.json",
     "package-binaries": "npm run build-binaries && node package-binaries.js",
+    "prepublishOnly": "npm run build",
     "postpublish": "npm run package-binaries"
   },
   "pkg": {
