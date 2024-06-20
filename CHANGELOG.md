@@ -1,3 +1,11 @@
+## [3.1.5](https://github.com/geostyler/geostyler-cli/compare/v3.1.4...v3.1.5) (2024-06-20)
+
+
+### Bug Fixes
+
+* add missing dependency ([44f0f59](https://github.com/geostyler/geostyler-cli/commit/44f0f59b50e0c91b1e257d85a39d551125d620f0))
+* create a version.ts file and use this for CLI version numbers ([#390](https://github.com/geostyler/geostyler-cli/issues/390)) ([5b4f47e](https://github.com/geostyler/geostyler-cli/commit/5b4f47e1449cd0e908746700e90431f80c703f2d))
+
 ## [3.1.4](https://github.com/geostyler/geostyler-cli/compare/v3.1.3...v3.1.4) (2024-06-19)
 
 
