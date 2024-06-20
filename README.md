@@ -21,7 +21,7 @@ Download the zip file for your operating system, unzip, navigate to the folder
 and run the `geostyler` command:
 
 ```
-geostyler --output new-qgis-style.qml my-existing.sld
+geostyler-cli --output new-qgis-style.qml my-existing.sld
 ```
 
 ## Usage without installation ⚡
@@ -44,16 +44,16 @@ JavaScript package manager. To install the `geostyler` command globally:
 npm install -g geostyler-cli
 ```
 
-You can then use the new `geostyler` command, e.g.:
+You can then use the new `geostyler-cli` command, e.g.:
 
 ```
-geostyler -s sld -t qgis -o output.qml input.sld
+geostyler-cli -s sld -t qgis -o output.qml input.sld
 ```
 
 To process a folder of files:
 
 ```
-geostyler -s sld -t qgis -o /outputdir /inputdir
+geostyler-cli -s sld -t qgis -o /outputdir /inputdir
 ```
 
 
@@ -75,30 +75,30 @@ npm uninstall -g geostyler-cli
 To convert a single file:
 
 ```bash
-geostyler [options] -o /path/to/output.ext /path/to/input.ext
+geostyler-cli [options] -o /path/to/output.ext /path/to/input.ext
 # example, relying on file extensions to select the parsers
-geostyler -o point_simple.sld testdata/point_simple.qml
+geostyler-cli -o point_simple.sld testdata/point_simple.qml
 # example with explicit parsers
-geostyler -s qml -t sld -o point_simple.sld testdata/point_simple.qml
+geostyler-cli -s qml -t sld -o point_simple.sld testdata/point_simple.qml
 ```
 
 To convert all files in a directory:
 
 ```bash
-geostyler [options] -t qgis -o /path/to/output /path/to/input/
+geostyler-cli [options] -t qgis -o /path/to/output /path/to/input/
 # example
-geostyler -s sld -t qgis -o ./output-sld testdata/sld
+geostyler-cli -s sld -t qgis -o ./output-sld testdata/sld
 ```
 
 To output the GeoStyler format to `stdout` (only available for a single file), don't
 set an output file or parser:
 
 ```bash
-geostyler [options] /path/to/input.ext
+geostyler-cli [options] /path/to/input.ext
 # print the GeoStyler format to stdout (relying on the file extension to select the parser)
-geostyler testdata/point_simple.qml
+geostyler-cli testdata/point_simple.qml
 # print an SLD output to stdout
-geostyler -t sld testdata/point_simple.qml
+geostyler-cli -t sld testdata/point_simple.qml
 ```
 
 ## Options
