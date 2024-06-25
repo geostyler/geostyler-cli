@@ -73,7 +73,7 @@
     "geostyler-openlayers-parser": "^4.3.0",
     "geostyler-qgis-parser": "^2.0.1",
     "geostyler-sld-parser": "^5.3.1",
-    "geostyler-style": "^8.1.0",
+    "geostyler-style": "^9.0.0",
     "gradient-string": "^2.0.2",
     "minimist": "^1.2.8",
     "ol": "^9.0.0",
