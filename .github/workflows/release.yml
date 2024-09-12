@@ -11,13 +11,11 @@ jobs:
       - name: Checkout sources 🔰
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 18 👷🏻
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
+      - name: Use bun
+        uses: oven-sh/setup-bun@v1
 
       - name: Install dependencies ⏬
-        run: npm ci
+        run: bun install
 
       - name: Release 🚀
         uses: cycjimmy/semantic-release-action@v4.1.0

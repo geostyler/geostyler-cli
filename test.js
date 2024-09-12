@@ -13,7 +13,7 @@ function checkFileCreated(outputFile) {
 }
 
 function runTest(args, outputFile) {
-  const cmd = 'npm';
+  const cmd = 'bun';
   const result = spawnSync(cmd, args, { shell: true });
   /* eslint-disable no-console */
   console.log(`Status: ${result.status.toString()}`);
@@ -26,7 +26,7 @@ function runAllTests() {
   let success = true;
 
   // test sld to qgis
-  let outputFile = 'output.qml';
+  let outputFile = 'TEST_OUTPUT.qml';
   let args = ['start', '--', '-s', 'sld', '-t', 'qgis', '-o', outputFile, 'testdata/sld/point_simplepoint.sld'];
   runTest(args, outputFile);
 
@@ -35,7 +35,7 @@ function runAllTests() {
   }
 
   // test qgis to sld
-  outputFile = 'output.sld';
+  outputFile = 'TEST_OUTPUT.sld';
   args = ['start', '--', '-s', 'qgis', '-t', 'sld', '-o', outputFile, 'testdata/point_simple.qml'];
   runTest(args, outputFile);
 
@@ -44,7 +44,7 @@ function runAllTests() {
   }
 
   // test mapfile to geostyler
-  outputFile = 'output.map';
+  outputFile = 'TEST_OUTPUT.geostyler';
   args = ['start', '--', '-s', 'mapfile', '-o', outputFile, 'testdata/point_simplepoint.map'];
   runTest(args, outputFile);
 

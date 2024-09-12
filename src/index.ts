@@ -2,9 +2,11 @@
 
 import SLDParser from 'geostyler-sld-parser';
 import QGISParser from 'geostyler-qgis-parser';
-// import OpenLayersParser from "geostyler-openlayers-parser";
 import MapfileParser from 'geostyler-mapfile-parser';
 import MapboxParser from 'geostyler-mapbox-parser';
+import ArcGISParser from 'geostyler-lyrx-parser';
+import { StyleParser } from 'geostyler-style';
+
 import {
   existsSync,
   lstatSync,
@@ -13,7 +15,6 @@ import {
   readdirSync
 } from 'fs';
 import minimist from 'minimist';
-import { StyleParser } from 'geostyler-style';
 import ora, { Ora } from 'ora';
 import {
   logHelp,
@@ -33,10 +34,10 @@ const getParserFromFormat = (inputString: string): StyleParser | undefined => {
     throw new Error('No input');
   }
   switch (inputString.toLowerCase()) {
-    // case 'openlayers':
-    // case 'ol':
-    //   return new OpenLayersParser();
+    case 'lyrx':
+      return new ArcGISParser();
     case 'mapbox':
+    case 'maplibre':
       return new MapboxParser();
     case 'mapfile':
     case 'map':
@@ -62,9 +63,10 @@ const getParserFromFilename = (fileName: string): StyleParser | undefined => {
     return undefined;
   }
   switch (fileEnding.toLowerCase()) {
-    // case 'ol':
-    //   return new OpenLayersParser();
+    case 'lyrx':
+      return new ArcGISParser();
     case 'mapbox':
+    case 'maplibre':
       return new MapboxParser();
     case 'map':
       return new MapfileParser();
@@ -82,9 +84,6 @@ const getExtensionFromFormat = (format: string): string => {
     return '';
   }
   switch (format.toLowerCase()) {
-    case 'openlayers':
-    case 'ol':
-      return 'ts';
     case 'mapfile':
       return 'map';
     case 'qgis':
@@ -159,11 +158,15 @@ function collectPaths(basePath: string, isFile: boolean): string[] {
 
 async function writeFile(
   sourceFile: string, sourceParser: StyleParser,
-  targetFile: string, targetParser: StyleParser | undefined,
+  targetFile: string, targetParser: Exclude<StyleParser, ArcGISParser | MapfileParser> | undefined,
   oraIndicator: Ora
 ) {
   const inputFileData = await promises.readFile(sourceFile, 'utf-8');
   const indicator = oraIndicator; // for linter.
+
+  if (targetParser instanceof ArcGISParser || targetParser instanceof MapfileParser) {
+    throw new Error('ArcGIS (lyrx) and MapFile are not supported as target.');
+  }
 
   try {
     indicator.text = `Reading from ${sourceFile}`;
@@ -259,7 +262,7 @@ async function main() {
   // Check source path arg.
   if (!sourcePath) {
     indicator.fail('No input file or folder specified.');
-    return;
+    return Promise.reject('No input file or folder specified.');
   }
 
   // Check source exists, is a dir or a file ?
@@ -271,12 +274,11 @@ async function main() {
   // Try to define type of target (file or dir).
   // Assume the target is the same as the source
   let targetIsFile = sourceIsFile;
-  const outputExists = existsSync(outputPath);
 
   // Dir to file is not possible
   if (!sourceIsFile && targetIsFile) {
     indicator.fail('The source is a directory, so the target must be directory, too.');
-    return;
+    return Promise.reject('The source is a directory, so the target must be directory, too.');
   }
 
   // Get source and target parser.
@@ -285,7 +287,7 @@ async function main() {
   const targetParser = targetFormat && getParserFromFormat(targetFormat) || getParserFromFilename(outputPath);
   if (!sourceParser) {
     indicator.fail('No sourceparser was specified.');
-    return;
+    return Promise.reject('No sourceparser was specified.');
   }
   if (!targetParser) {
     indicator.info('No targetparser was specified. Output will be a GeoStyler object.');
