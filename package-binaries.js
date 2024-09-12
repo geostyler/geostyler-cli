@@ -1,8 +1,6 @@
 /* eslint-disable no-console */
-const fs = require('fs');
-const path = require('path');
-const AdmZip = require('adm-zip');
-
+import fs from 'fs';
+import AdmZip from 'adm-zip';
 
 // Define the folder path and the list of file names
 const folderPath = './binaries/';

@@ -1,5 +1,5 @@
-const fs = require('fs');
-const { spawnSync } = require('child_process');
+import fs from 'fs';
+import { spawnSync } from 'child_process';
 
 function checkFileCreated(outputFile) {
   try {

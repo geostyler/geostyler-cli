@@ -2,6 +2,7 @@
   "name": "geostyler-cli",
   "version": "4.0.0",
   "description": "",
+  "type": "module",
   "main": "dist/src/index.js",
   "files": [
     "dist"
@@ -10,17 +11,20 @@
     "geostyler-cli": "dist/src/index.js"
   },
   "scripts": {
-    "build": "npm run build-clean && npm run build-only",
+    "build": "bun run build-clean && bun run build-only",
     "build-clean": "rimraf build/ dist/",
     "build-only": "tsc -p tsconfig.json",
-    "lint:build": "npm run lint && npm run build",
-    "start": "node dist/src/index.js",
+    "lint:build": "bun run lint && bun run build",
+    "start": "bun src/index.ts",
     "lint": "eslint . && tsc --noEmit --project tsconfig.json",
     "test": "node test.js",
-    "build-binaries": "npm run build && pkg package.json",
-    "package-binaries": "npm run build-binaries && node package-binaries.js",
-    "prepublishOnly": "npm run build",
-    "postpublish": "npm run package-binaries"
+    "build-binaries": "bun run build-windows && bun run build-linux && bun run build-macos",
+    "build-windows": "bun build --compile --target=bun-windows-x64 ./src/index.ts --outfile ./binaries/geostyler-cli-win",
+    "build-linux": "bun build --compile --target=bun-linux-x64 ./src/index.ts --outfile ./binaries/geostyler-cli-linux",
+    "build-macos": "bun build --compile --target=bun-darwin-x64 ./src/index.ts --outfile ./binaries/geostyler-cli-macos",
+    "package-binaries": "bun run build-binaries && node package-binaries.js",
+    "prepublishOnly": "bun run build",
+    "postpublish": "bun run package-binaries"
   },
   "pkg": {
     "targets": [
@@ -47,7 +51,7 @@
   },
   "homepage": "https://github.com/geostyler/geostyler-cli#readme",
   "engines": {
-    "node": ">=12.0.0",
+    "node": ">=18.0.0",
     "npm": ">=6.0.0"
   },
   "devDependencies": {
@@ -68,16 +72,17 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "geostyler-mapbox-parser": "^5.0.1",
-    "geostyler-mapfile-parser": "^3.0.0",
-    "geostyler-openlayers-parser": "^4.3.0",
-    "geostyler-qgis-parser": "^2.0.1",
-    "geostyler-sld-parser": "^5.3.1",
-    "geostyler-style": "^8.1.0",
+    "geostyler-lyrx-parser": "^1.0.0",
+    "geostyler-mapbox-parser": "^6.0.0",
+    "geostyler-mapfile-parser": "^4.0.1",
+    "geostyler-openlayers-parser": "^5.0.0",
+    "geostyler-qgis-parser": "^3.0.0",
+    "geostyler-sld-parser": "^6.1.2",
+    "geostyler-style": "^9.1.0",
     "gradient-string": "^2.0.2",
     "minimist": "^1.2.8",
     "ol": "^9.0.0",
-    "ora": "5.4.1",
+    "ora": "8.1.0",
     "terminal-image": "^2.0.0"
   },
   "funding": "https://opencollective.com/geostyler"
