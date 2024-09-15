@@ -203,7 +203,7 @@ async function writeFile(
           console.log(`Target parser ${targetParser.title} does not support the following properties:`);
           console.log(writeUnsupportedProperties);
         }
-        output = writeOutput;
+        output = typeof writeOutput === 'object' ? JSON.stringify(writeOutput, undefined, 2) : writeOutput;
       } else {
         output = JSON.stringify(readOutput, undefined, 2);
       }
