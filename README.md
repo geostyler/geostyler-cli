@@ -3,34 +3,29 @@
 A command line interface for [GeoStyler](https://geostyler.org) to convert
 between various formats for styling of geographic data.
 
-## tl;dr
+## Download and usage
 
-```
-bunx geostyler-cli --output new-qgis-style.qml my-existing.sld
-```
+The recommended way to use the GeoStyler CLI is by downloading the binary for your OS.
 
-## Requirements
+- [Linux x64](https://github.com/geostyler/geostyler-cli/releases/latest/download/geostyler-cli-linux.zip)
+- [Windows x64](https://github.com/geostyler/geostyler-cli/releases/latest/download/geostyler-cli-win.exe.zip)
+- [MacOS x64](https://github.com/geostyler/geostyler-cli/releases/latest/download/geostyler-cli-macos-x64.zip)
+- [MacOS arm64](https://github.com/geostyler/geostyler-cli/releases/latest/download/geostyler-cli-macos-arm64.zip)
 
-`geostyler-cli` can either be run as a standalone application or installed using [Node.js](https://nodejs.org/).
+You can also find the available versions in the assets section of the releases:
 
-## Standalone application
+https://github.com/geostyler/geostyler-cli/releases/latest
 
-Binaries are available for Linux, MacOS, and Windows on the
-[Releases](https://github.com/geostyler/geostyler-cli/releases) page.
-Download the zip file for your operating system, unzip, navigate to the folder
-and run the `geostyler` command:
+Unzip the binary and simply run:
 
-```
-geostyler-cli --output new-qgis-style.qml my-existing.sld
+```sh
+./geostyler-cli --help
 ```
 
-## Usage without installation ⚡
-
-`Bun` includes [bunx](https://bun.sh/docs/cli/bunx), this
-allows you to run commands from an npm package without having to install it.
+Alternatively you can use the GeoStyler CLI with [bun.sh](https://bun.sh/):
 
 ```
-bunx geostyler-cli -s sld -t qgis -o output.qml input.sld
+bunx geostyler-cli --help
 ```
 
 ## Syntax and examples
@@ -84,9 +79,9 @@ Mandatory if the the target is a directory.
 In your clone of the repo, in the root directory:
 
 ```bash
-bun install   # get dependencies
-bun run build # build from possibly changed source
-# now you can call your build like this:
+# install dependencies
+bun install
+# run the CLI
 bun run start -- -s sld -t qgis -o output.qml testdata/point_simplepoint.sld
 ```
 

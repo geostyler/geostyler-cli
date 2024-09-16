@@ -18,10 +18,11 @@
     "start": "bun src/index.ts",
     "lint": "eslint . && tsc --noEmit --project tsconfig.json",
     "test": "node test.js",
-    "build-binaries": "bun run build-windows && bun run build-linux && bun run build-macos",
+    "build-binaries": "bun run build-windows && bun run build-linux && bun run build-macos-x64 && bun run build-macos-arm64",
     "build-windows": "bun build --compile --target=bun-windows-x64 ./src/index.ts --outfile ./binaries/geostyler-cli-win",
     "build-linux": "bun build --compile --target=bun-linux-x64 ./src/index.ts --outfile ./binaries/geostyler-cli-linux",
-    "build-macos": "bun build --compile --target=bun-darwin-x64 ./src/index.ts --outfile ./binaries/geostyler-cli-macos",
+    "build-macos-x64": "bun build --compile --target=bun-darwin-x64 ./src/index.ts --outfile ./binaries/geostyler-cli-macos-x64",
+    "build-macos-arm64": "bun build --compile --target=bun-darwin--arm64 ./src/index.ts --outfile ./binaries/geostyler-cli-macos-arm64",
     "package-binaries": "bun run build-binaries && node package-binaries.js",
     "prepublishOnly": "bun run build",
     "postpublish": "bun run package-binaries"

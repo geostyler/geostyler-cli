@@ -4,7 +4,12 @@ import AdmZip from 'adm-zip';
 
 // Define the folder path and the list of file names
 const folderPath = './binaries/';
-const fileNames = ['geostyler-cli-win.exe', 'geostyler-cli-linux', 'geostyler-cli-macos'];
+const fileNames = [
+  'geostyler-cli-win.exe',
+  'geostyler-cli-linux',
+  'geostyler-cli-macos-x64',
+  'geostyler-cli-macos-arm64'
+];
 
 function renameFile(oldPath, newPath) {
   return new Promise((resolve, reject) => {
