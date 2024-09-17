@@ -1,6 +1,7 @@
 node_modules
+binaries
+build
 dist
-
 output-bulk
 output.map
 output.qml
