@@ -1,3 +1,12 @@
+## [4.0.1](https://github.com/geostyler/geostyler-cli/compare/v4.0.0...v4.0.1) (2024-10-07)
+
+
+### Bug Fixes
+
+* make cli and standalone binaries build work ([6e790f6](https://github.com/geostyler/geostyler-cli/commit/6e790f6d2dd73d18ab106c1e92df270a81db10e7))
+* stringify objects before writing file ([1d6c52f](https://github.com/geostyler/geostyler-cli/commit/1d6c52f438f8fa8573197dfc782419b45559accd))
+* update branch name in CI configs ([756fcea](https://github.com/geostyler/geostyler-cli/commit/756fceafd4f41e7e402456f640a937d0840b1ead))
+
 ## [4.0.0](https://github.com/geostyler/geostyler-cli/compare/v3.1.5...v4.0.0) (2024-06-20)
 
 
