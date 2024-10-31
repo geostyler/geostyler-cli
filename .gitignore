@@ -3,6 +3,4 @@ binaries
 build
 dist
 output-bulk
-output.map
-output.qml
-output.sld
+output.*
