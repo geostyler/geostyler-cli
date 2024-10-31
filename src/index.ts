@@ -2,9 +2,10 @@
 
 import SLDParser from 'geostyler-sld-parser';
 import QGISParser from 'geostyler-qgis-parser';
-// import OpenLayersParser from "geostyler-openlayers-parser";
 import MapfileParser from 'geostyler-mapfile-parser';
 import MapboxParser from 'geostyler-mapbox-parser';
+import LyrxParser from 'geostyler-lyrx-parser';
+
 import {
   existsSync,
   lstatSync,
@@ -33,9 +34,8 @@ const getParserFromFormat = (inputString: string): StyleParser | undefined => {
     throw new Error('No input');
   }
   switch (inputString.toLowerCase()) {
-    // case 'openlayers':
-    // case 'ol':
-    //   return new OpenLayersParser();
+    case 'lyrx':
+      return new LyrxParser();
     case 'mapbox':
       return new MapboxParser();
     case 'mapfile':
@@ -62,8 +62,8 @@ const getParserFromFilename = (fileName: string): StyleParser | undefined => {
     return undefined;
   }
   switch (fileEnding.toLowerCase()) {
-    // case 'ol':
-    //   return new OpenLayersParser();
+    case 'lyrx':
+      return new LyrxParser();
     case 'mapbox':
       return new MapboxParser();
     case 'map':
@@ -82,9 +82,8 @@ const getExtensionFromFormat = (format: string): string => {
     return '';
   }
   switch (format.toLowerCase()) {
-    case 'openlayers':
-    case 'ol':
-      return 'ts';
+    case 'lyrx':
+      return 'lyrx';
     case 'mapfile':
       return 'map';
     case 'qgis':
@@ -95,7 +94,7 @@ const getExtensionFromFormat = (format: string): string => {
 };
 
 const tryRemoveExtension = (fileName: string): string => {
-  const possibleExtensions = ['js', 'ts', 'mapbox', 'map', 'sld', 'qml'];
+  const possibleExtensions = ['js', 'ts', 'mapbox', 'map', 'sld', 'qml', 'lyrx'];
   const splittedFileName = fileName.split('.');
   const sourceFileExtension = splittedFileName.pop();
   if (sourceFileExtension && possibleExtensions.includes(sourceFileExtension.toLowerCase())) {
@@ -162,8 +161,13 @@ async function writeFile(
   targetFile: string, targetParser: StyleParser | undefined,
   oraIndicator: Ora
 ) {
-  const inputFileData = await promises.readFile(sourceFile, 'utf-8');
+  let inputFileData = await promises.readFile(sourceFile, 'utf-8');
   const indicator = oraIndicator; // for linter.
+
+  // LyrxParser expects a JSON object as input
+  if (sourceParser instanceof LyrxParser) {
+    inputFileData = JSON.parse(inputFileData);
+  }
 
   try {
     indicator.text = `Reading from ${sourceFile}`;
@@ -173,7 +177,7 @@ async function writeFile(
       unsupportedProperties: readUnsupportedProperties,
       output: readOutput
     } = await sourceParser.readStyle(inputFileData);
-    if (readErrors) {
+    if (readErrors && readErrors.length > 0) {
       throw readErrors;
     }
     if (readWarnings) {
