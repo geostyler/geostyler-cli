@@ -1,3 +1,16 @@
+## [4.1.0](https://github.com/geostyler/geostyler-cli/compare/v4.0.1...v4.1.0) (2024-10-31)
+
+
+### Features
+
+*  throw error for unsupported targetParsers ([14bb940](https://github.com/geostyler/geostyler-cli/commit/14bb940d6aee65547d2a4e87125fb5bfa4e3b1d1))
+* adds geostyler-lyrx-parser ([cd4b625](https://github.com/geostyler/geostyler-cli/commit/cd4b625f01988c98bf8f5b02d9a46a36c0d2ec4e))
+
+
+### Bug Fixes
+
+* adapt outputfile name ([700518e](https://github.com/geostyler/geostyler-cli/commit/700518e00860bc9e19369fc24d6f6c5282beb7ed))
+
 ## [4.0.1](https://github.com/geostyler/geostyler-cli/compare/v4.0.0...v4.0.1) (2024-10-07)
 
 
