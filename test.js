@@ -44,7 +44,7 @@ function runAllTests() {
   }
 
   // test mapfile to geostyler
-  outputFile = 'output.map';
+  outputFile = 'output.geostyler';
   args = ['start', '--', '-s', 'mapfile', '-o', outputFile, 'testdata/point_simplepoint.map'];
   runTest(args, outputFile);
 

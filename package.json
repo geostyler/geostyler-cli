@@ -66,6 +66,7 @@
     "@typescript-eslint/parser": "^5.59.1",
     "adm-zip": "^0.5.10",
     "eslint": "^8.39.0",
+    "geostyler-lyrx-parser": "^1.0.2",
     "geostyler-mapbox-parser": "^6.0.0",
     "geostyler-mapfile-parser": "^4.0.1",
     "geostyler-qgis-parser": "^3.0.0",
