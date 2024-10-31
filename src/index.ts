@@ -191,6 +191,13 @@ async function writeFile(
       let output;
       indicator.text = `Writing to ${targetFile}`;
       if (targetParser) {
+        if (targetParser instanceof LyrxParser) {
+          throw new Error('LyrxParser is not supported as target parser.');
+        }
+        if (targetParser instanceof MapfileParser) {
+          throw new Error('MapfileParser is not supported as target parser.');
+        }
+
         const {
           output: writeOutput,
           errors: writeErrors,
