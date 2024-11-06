@@ -1,3 +1,10 @@
+## [4.1.1](https://github.com/geostyler/geostyler-cli/compare/v4.1.0...v4.1.1) (2024-11-06)
+
+
+### Bug Fixes
+
+* remove binaries from .gitignore ([8bf1afa](https://github.com/geostyler/geostyler-cli/commit/8bf1afa8d54cfce8a320a739be12c1d7108a18cd))
+
 ## [4.1.0](https://github.com/geostyler/geostyler-cli/compare/v4.0.1...v4.1.0) (2024-10-31)
 
 
