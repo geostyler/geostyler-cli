@@ -14,7 +14,7 @@ import {
   readdirSync
 } from 'fs';
 import minimist from 'minimist';
-import { StyleParser } from 'geostyler-style';
+import { StyleParser, ReadStyleResult, WriteStyleResult } from 'geostyler-style';
 import ora, { Ora } from 'ora';
 import {
   logHelp,
@@ -48,33 +48,26 @@ const getParserFromFormat = (inputString: string): StyleParser | undefined => {
     case 'qgis':
     case 'qml':
       return new QGISParser();
-    default:
+    case 'geostyler':
       return undefined;
+    default:
+      throw new Error(`Unrecognized format: ${inputString}`)
   }
 };
 
-const getParserFromFilename = (fileName: string): StyleParser | undefined => {
+const getFormatFromFilename = (fileName: string): string | undefined => {
   if (!fileName) {
     return undefined;
   }
-  const fileEnding = fileName.split('.')[1];
+  let fileEnding = fileName.split('.').pop();
   if (!fileEnding) {
     return undefined;
   }
-  switch (fileEnding.toLowerCase()) {
-    case 'lyrx':
-      return new LyrxParser();
-    case 'mapbox':
-      return new MapboxParser();
-    case 'map':
-      return new MapfileParser();
-    case 'sld':
-      return new SLDParser();
-    case 'qml':
-      return new QGISParser();
-    default:
-      return undefined;
+  fileEnding = fileEnding.toLowerCase();
+  if (['lyrx', 'mapbox', 'map', 'sld', 'qml', 'geostyler'].includes(fileEnding)) {
+    return fileEnding;
   }
+  return undefined;
 };
 
 const getExtensionFromFormat = (format: string): string => {
@@ -156,75 +149,61 @@ function collectPaths(basePath: string, isFile: boolean): string[] {
   }
 }
 
+function handleResult(result: ReadStyleResult | WriteStyleResult, parser: StyleParser, stage: 'Source' | 'Target') {
+    const { output, errors, warnings, unsupportedProperties } = result;
+    if (errors && errors.length > 0) {
+      throw errors;
+    }
+    if (warnings) {
+      warnings.map(console.warn);
+    }
+    if (unsupportedProperties) {
+      console.log(`${stage} parser ${parser.title} does not support the following properties:`);
+      console.log(unsupportedProperties);
+    }
+    return output;
+}
+
 async function writeFile(
-  sourceFile: string, sourceParser: StyleParser,
+  sourceFile: string, sourceParser: StyleParser | undefined,
   targetFile: string, targetParser: StyleParser | undefined,
   oraIndicator: Ora
 ) {
+  if (targetParser instanceof LyrxParser) {
+    throw new Error('LyrxParser is not supported as target parser.');
+  }
+  if (targetParser instanceof MapfileParser) {
+    throw new Error('MapfileParser is not supported as target parser.');
+  }
+
   let inputFileData = await promises.readFile(sourceFile, 'utf-8');
   const indicator = oraIndicator; // for linter.
 
-  // LyrxParser expects a JSON object as input
-  if (sourceParser instanceof LyrxParser) {
+  // If no sourceParser is set, just parse it as JSON - it should already be in geostyler format.
+  // LyrxParser expects a JSON object as input, so we need to parse it as an extra step.
+  if (!sourceParser || sourceParser instanceof LyrxParser) {
     inputFileData = JSON.parse(inputFileData);
   }
 
   try {
     indicator.text = `Reading from ${sourceFile}`;
-    const {
-      errors: readErrors,
-      warnings: readWarnings,
-      unsupportedProperties: readUnsupportedProperties,
-      output: readOutput
-    } = await sourceParser.readStyle(inputFileData);
-    if (readErrors && readErrors.length > 0) {
-      throw readErrors;
-    }
-    if (readWarnings) {
-      readWarnings.map(console.warn);
-    }
-    if (readUnsupportedProperties) {
-      console.log(`Source parser ${sourceParser.title} does not support the following properties:`);
-      console.log(readUnsupportedProperties);
-    }
-    if (readOutput) {
-      let output;
-      indicator.text = `Writing to ${targetFile}`;
-      if (targetParser) {
-        if (targetParser instanceof LyrxParser) {
-          throw new Error('LyrxParser is not supported as target parser.');
-        }
-        if (targetParser instanceof MapfileParser) {
-          throw new Error('MapfileParser is not supported as target parser.');
-        }
+    const readOutput = sourceParser
+        ? handleResult(await sourceParser.readStyle(inputFileData as any), sourceParser, 'Source')
+        : inputFileData;
 
-        const {
-          output: writeOutput,
-          errors: writeErrors,
-          warnings: writeWarnings,
-          unsupportedProperties: writeUnsupportedProperties
-        } = await targetParser.writeStyle(readOutput);
-        if (writeErrors) {
-          throw writeErrors;
-        }
-        if (writeWarnings) {
-          writeWarnings.map(console.warn);
-        }
-        if (writeUnsupportedProperties) {
-          console.log(`Target parser ${targetParser.title} does not support the following properties:`);
-          console.log(writeUnsupportedProperties);
-        }
-        output = typeof writeOutput === 'object' ? JSON.stringify(writeOutput, undefined, 2) : writeOutput;
-      } else {
-        output = JSON.stringify(readOutput, undefined, 2);
-      }
-      if (targetFile) {
-        await promises.writeFile(targetFile, output, 'utf-8');
-        indicator.succeed(`File "${sourceFile}" translated successfully. Output written to ${targetFile}`);
-      } else {
-        indicator.succeed(`File "${sourceFile}" translated successfully. Output written to stdout:\n`);
-        console.log(output);
-      }
+    indicator.text = `Writing to ${targetFile}`;
+    const writeOutput = targetParser
+        ? handleResult(await targetParser.writeStyle(readOutput), targetParser, 'Target')
+        : readOutput;
+
+    const finalOutput = typeof writeOutput === 'object' ? JSON.stringify(writeOutput, undefined, 2) : writeOutput;
+
+    if (targetFile) {
+      await promises.writeFile(targetFile, finalOutput, 'utf-8');
+      indicator.succeed(`File "${sourceFile}" translated successfully. Output written to ${targetFile}`);
+    } else {
+      indicator.succeed(`File "${sourceFile}" translated successfully. Output written to stdout:\n`);
+      console.log(finalOutput);
     }
   } catch (error) {
     indicator.fail(`Error during translation of file "${sourceFile}": ${error}`);
@@ -260,8 +239,8 @@ async function main() {
 
   // Assign args
   const sourcePath: string = unnamedArgs[0];
-  const sourceFormat: string = s || source || sourcePath;
-  const targetFormat: string = t || target;
+  let sourceFormat: string | undefined = s || source;
+  let targetFormat: string | undefined = t || target;
   const outputPath: string = o || output;
 
   // Instantiate progress indicator
@@ -290,17 +269,25 @@ async function main() {
     return;
   }
 
-  // Get source and target parser.
-  const sourceParser = sourceFormat && getParserFromFormat(sourceFormat)
-    || (sourceIsFile && getParserFromFilename(sourcePath));
-  const targetParser = targetFormat && getParserFromFormat(targetFormat) || getParserFromFilename(outputPath);
-  if (!sourceParser) {
-    indicator.fail('No sourceparser was specified.');
-    return;
+  // Get source parser.
+  if (!sourceFormat && sourceIsFile) {
+    sourceFormat = getFormatFromFilename(sourcePath)
   }
-  if (!targetParser) {
+  if (!sourceFormat) {
+    indicator.info('No sourceparser was specified. Input will be parsed as a GeoStyler object.');
+    sourceFormat = 'geostyler';
+  }
+  const sourceParser = getParserFromFormat(sourceFormat)
+
+  // Get target parser.
+  if (!targetFormat && targetIsFile) {
+    targetFormat = getFormatFromFilename(outputPath)
+  }
+  if (!targetFormat) {
     indicator.info('No targetparser was specified. Output will be a GeoStyler object.');
+    targetFormat = 'geostyler';
   }
+  const targetParser = getParserFromFormat(targetFormat);
 
   // Get source(s) path(s).
   const sourcePaths = collectPaths(sourcePath, sourceIsFile);
