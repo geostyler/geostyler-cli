@@ -57,7 +57,7 @@ const getParserFromFilename = (fileName: string): StyleParser | undefined => {
   if (!fileName) {
     return undefined;
   }
-  const fileEnding = fileName.split('.')[1];
+  const fileEnding = fileName.split('.').pop();
   if (!fileEnding) {
     return undefined;
   }
