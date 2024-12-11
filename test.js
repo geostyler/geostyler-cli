@@ -52,6 +52,15 @@ function runAllTests() {
     success = false;
   }
 
+  // test geostyler to mapbox
+  outputFile = 'output.mapbox';
+  args = ['start', '--', '-s', 'geostyler', '-o', outputFile, 'testdata/point_simplepoint.geostyler'];
+  runTest(args, outputFile);
+
+  if (checkFileCreated(outputFile) === false) {
+    success = false;
+  }
+
   // test folder output
   args = ['start', '--', '-s', 'sld', '-t', 'qgis', '-o', './output-bulk', 'testdata/sld'];
   runTest(args, outputFile);
