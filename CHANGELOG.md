@@ -1,3 +1,10 @@
+## [4.2.0](https://github.com/geostyler/geostyler-cli/compare/v4.1.2...v4.2.0) (2024-12-11)
+
+
+### Features
+
+* add geostyler style as a format ([bc0cc03](https://github.com/geostyler/geostyler-cli/commit/bc0cc039201909edfba5e91c8210a16d724dd5f9))
+
 ## [4.1.2](https://github.com/geostyler/geostyler-cli/compare/v4.1.1...v4.1.2) (2024-11-07)
 
 
