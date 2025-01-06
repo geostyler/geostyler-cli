@@ -16,6 +16,7 @@ import {
 import minimist from 'minimist';
 import { StyleParser, ReadStyleResult, WriteStyleResult } from 'geostyler-style';
 import ora, { Ora } from 'ora';
+import { Readable } from 'stream';
 import {
   logHelp,
   logVersion
@@ -102,6 +103,9 @@ const computeTargetPath = (
   targetIsFile: boolean,
   targetFormat: string
 ): string => {
+  if (sourcePathFile === '-') {
+    return outputPath;
+  }
   if (targetIsFile) {
     // Case file -> file
     return outputPath;
@@ -132,7 +136,7 @@ const computeTargetPath = (
 };
 
 function collectPaths(basePath: string, isFile: boolean): string[] {
-  if (isFile) {
+  if (isFile || basePath === '-') {
     return [basePath];
   } else {
     const files = readdirSync(basePath);
@@ -164,29 +168,40 @@ function handleResult(result: ReadStyleResult | WriteStyleResult, parser: StyleP
     return output;
 }
 
+async function readStream(stream: Readable, encoding: BufferEncoding) {
+  const chunks = [];
+  for await (const chunk of stream) {
+    chunks.push(chunk);
+  }
+  return Buffer.concat(chunks).toString(encoding);
+}
+
 async function writeFile(
   sourceFile: string, sourceParser: StyleParser | undefined,
   targetFile: string, targetParser: StyleParser | undefined,
   oraIndicator: Ora
-) {
+): Promise<number> {
   if (targetParser instanceof LyrxParser) {
     throw new Error('LyrxParser is not supported as target parser.');
   }
   if (targetParser instanceof MapfileParser) {
     throw new Error('MapfileParser is not supported as target parser.');
   }
-
-  let inputFileData = await promises.readFile(sourceFile, 'utf-8');
   const indicator = oraIndicator; // for linter.
-
-  // If no sourceParser is set, just parse it as JSON - it should already be in geostyler format.
-  // LyrxParser expects a JSON object as input, so we need to parse it as an extra step.
-  if (!sourceParser || sourceParser instanceof LyrxParser) {
-    inputFileData = JSON.parse(inputFileData);
-  }
 
   try {
     indicator.text = `Reading from ${sourceFile}`;
+
+    let inputFileData = (sourceFile === '-')
+        ? await readStream(process.stdin, 'utf-8')
+        : await promises.readFile(sourceFile, 'utf-8');
+
+    // If no sourceParser is set, just parse it as JSON - it should already be in geostyler format.
+    // LyrxParser expects a JSON object as input, so we need to parse it as an extra step.
+    if (!sourceParser || sourceParser instanceof LyrxParser) {
+      inputFileData = JSON.parse(inputFileData);
+    }
+
     const readOutput = sourceParser
         ? handleResult(await sourceParser.readStyle(inputFileData as any), sourceParser, 'Source')
         : inputFileData;
@@ -205,8 +220,10 @@ async function writeFile(
       indicator.succeed(`File "${sourceFile}" translated successfully. Output written to stdout:\n`);
       console.log(finalOutput);
     }
+    return 0;
   } catch (error) {
     indicator.fail(`Error during translation of file "${sourceFile}": ${error}`);
+    return 1;
   }
 }
 
@@ -244,19 +261,20 @@ async function main() {
   const outputPath: string = o || output;
 
   // Instantiate progress indicator
-  const indicator = ora({text: 'Starting Geostyler CLI', stream: process.stdout}).start();
+  const indicator = ora({text: 'Starting Geostyler CLI'}).start();
 
   // Check source path arg.
   if (!sourcePath) {
     indicator.fail('No input file or folder specified.');
-    return;
+    process.exit(1);
   }
 
   // Check source exists, is a dir or a file ?
-  if (!existsSync(sourcePath)) {
+  if (sourcePath !== '-' && !existsSync(sourcePath)) {
     indicator.fail('Input file or folder does not exist.');
+    process.exit(1);
   }
-  const sourceIsFile = lstatSync(sourcePath).isFile();
+  const sourceIsFile = (sourcePath !== '-') && lstatSync(sourcePath).isFile();
 
   // Try to define type of target (file or dir).
   // Assume the target is the same as the source
@@ -266,7 +284,7 @@ async function main() {
   // Dir to file is not possible
   if (!sourceIsFile && targetIsFile) {
     indicator.fail('The source is a directory, so the target must be directory, too.');
-    return;
+    process.exit(1);
   }
 
   // Get source parser.
@@ -292,7 +310,7 @@ async function main() {
   // Get source(s) path(s).
   const sourcePaths = collectPaths(sourcePath, sourceIsFile);
 
-  const writePromises: Promise<void>[] = [];
+  const writePromises: Promise<number>[] = [];
   sourcePaths.forEach((srcPath) => {
     indicator.text = `Transforming ${srcPath} from ${sourceFormat} to ${targetFormat}`;
     // Get correct output path
@@ -302,7 +320,9 @@ async function main() {
     writePromises.push(writeFile(srcPath, sourceParser, outputPathFile, targetParser, indicator));
   });
 
-  await Promise.all(writePromises);
+  const returnCodes = await Promise.all(writePromises);
+  const returnCode = returnCodes.reduce((acc, value) => acc || value, 0);
+  process.exit(returnCode);
 }
 
 main();
