@@ -1,3 +1,10 @@
+## [4.3.1](https://github.com/geostyler/geostyler-cli/compare/v4.3.0...v4.3.1) (2025-01-13)
+
+
+### Bug Fixes
+
+* update geostyler packages ([6ef08af](https://github.com/geostyler/geostyler-cli/commit/6ef08aff6156614ab786fa2ffee237b389c5aeae))
+
 ## [4.3.0](https://github.com/geostyler/geostyler-cli/compare/v4.2.0...v4.3.0) (2025-01-07)
 
 
