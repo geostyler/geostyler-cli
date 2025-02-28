@@ -46,6 +46,8 @@ const getParserFromFormat = (inputString: string): StyleParser | undefined => {
       return new SLDParser();
     case 'se':
       return new SLDParser({sldVersion:'1.1.0'});
+    case 'sld-gsvo':
+      return new SLDParser({withGeoServerVendorOption:true});
     case 'qgis':
     case 'qml':
       return new QGISParser();
