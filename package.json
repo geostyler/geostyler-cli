@@ -71,7 +71,7 @@
     "geostyler-mapfile-parser": "^4.0.1",
     "geostyler-qgis-parser": "^4.0.0",
     "geostyler-sld-parser": "^7.1.0",
-    "geostyler-style": "^9.2.0",
+    "geostyler-style": "^10.0.0",
     "gradient-string": "^2.0.2",
     "minimist": "^1.2.8",
     "ol": "^9.0.0",
@@ -82,5 +82,8 @@
     "terminal-image": "^2.0.0",
     "typescript": "^5.0.4"
   },
-  "funding": "https://opencollective.com/geostyler"
+  "funding": "https://opencollective.com/geostyler",
+  "dependencies": {
+    "geostyler-openlayers-parser": "^5.1.0"
+  }
 }

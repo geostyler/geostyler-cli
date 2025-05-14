@@ -5,6 +5,7 @@ import QGISParser from 'geostyler-qgis-parser';
 import MapfileParser from 'geostyler-mapfile-parser';
 import MapboxParser from 'geostyler-mapbox-parser';
 import LyrxParser from 'geostyler-lyrx-parser';
+import OlFlatStyleParser from 'geostyler-openlayers-parser/dist/OlFlatStyleParser';
 
 import {
   existsSync,
@@ -45,14 +46,16 @@ const getParserFromFormat = (inputString: string): StyleParser | undefined => {
     case 'sld':
       return new SLDParser();
     case 'se':
-      return new SLDParser({sldVersion:'1.1.0'});
+      return new SLDParser({ sldVersion: '1.1.0' });
     case 'qgis':
     case 'qml':
       return new QGISParser();
+    case 'ol-flat':
+      return new OlFlatStyleParser();
     case 'geostyler':
       return undefined;
     default:
-      throw new Error(`Unrecognized format: ${inputString}`)
+      throw new Error(`Unrecognized format: ${inputString}`);
   }
 };
 
@@ -126,7 +129,7 @@ const computeTargetPath = (
 
   if (typeof lastElement) {
     const targetFileName = tryRemoveExtension(lastElement as string);
-    if (!existsSync(finalPath)){
+    if (!existsSync(finalPath)) {
       mkdirSync(finalPath, { recursive: true });
     }
     return `${ensureTrailingSlash(finalPath)}${targetFileName}.${getExtensionFromFormat(targetFormat)}`;
@@ -140,7 +143,7 @@ function collectPaths(basePath: string, isFile: boolean): string[] {
     return [basePath];
   } else {
     const files = readdirSync(basePath);
-    const parts: string [] = [];
+    const parts: string[] = [];
     files.forEach((file) => {
       const fileIsFile = lstatSync(`${ensureTrailingSlash(basePath)}${file}`).isFile();
       if (fileIsFile) {
@@ -154,18 +157,21 @@ function collectPaths(basePath: string, isFile: boolean): string[] {
 }
 
 function handleResult(result: ReadStyleResult | WriteStyleResult, parser: StyleParser, stage: 'Source' | 'Target') {
-    const { output, errors, warnings, unsupportedProperties } = result;
-    if (errors && errors.length > 0) {
-      throw errors;
-    }
-    if (warnings) {
-      warnings.map(console.warn);
-    }
-    if (unsupportedProperties) {
-      console.log(`${stage} parser ${parser.title} does not support the following properties:`);
-      console.log(unsupportedProperties);
-    }
-    return output;
+  const { output, errors, warnings, unsupportedProperties } = result;
+  if (errors && errors.length > 0) {
+    throw errors;
+  }
+  if (warnings) {
+    // eslint-disable-next-line no-console
+    warnings.map(console.warn);
+  }
+  if (unsupportedProperties) {
+    // eslint-disable-next-line no-console
+    console.log(`${stage} parser ${parser.title} does not support the following properties:`);
+    // eslint-disable-next-line no-console
+    console.log(unsupportedProperties);
+  }
+  return output;
 }
 
 async function readStream(stream: Readable, encoding: BufferEncoding) {
@@ -193,23 +199,23 @@ async function writeFile(
     indicator.text = `Reading from ${sourceFile}`;
 
     let inputFileData = (sourceFile === '-')
-        ? await readStream(process.stdin, 'utf-8')
-        : await promises.readFile(sourceFile, 'utf-8');
+      ? await readStream(process.stdin, 'utf-8')
+      : await promises.readFile(sourceFile, 'utf-8');
 
     // If no sourceParser is set, just parse it as JSON - it should already be in geostyler format.
     // LyrxParser expects a JSON object as input, so we need to parse it as an extra step.
-    if (!sourceParser || sourceParser instanceof LyrxParser) {
+    if (!sourceParser || sourceParser instanceof LyrxParser || sourceParser instanceof OlFlatStyleParser) {
       inputFileData = JSON.parse(inputFileData);
     }
 
     const readOutput = sourceParser
-        ? handleResult(await sourceParser.readStyle(inputFileData as any), sourceParser, 'Source')
-        : inputFileData;
+      ? handleResult(await sourceParser.readStyle(inputFileData as any), sourceParser, 'Source')
+      : inputFileData;
 
     indicator.text = `Writing to ${targetFile}`;
     const writeOutput = targetParser
-        ? handleResult(await targetParser.writeStyle(readOutput), targetParser, 'Target')
-        : readOutput;
+      ? handleResult(await targetParser.writeStyle(readOutput), targetParser, 'Target')
+      : readOutput;
 
     const finalOutput = typeof writeOutput === 'object' ? JSON.stringify(writeOutput, undefined, 2) : writeOutput;
 
@@ -218,6 +224,7 @@ async function writeFile(
       indicator.succeed(`File "${sourceFile}" translated successfully. Output written to ${targetFile}`);
     } else {
       indicator.succeed(`File "${sourceFile}" translated successfully. Output written to stdout:\n`);
+      // eslint-disable-next-line no-console
       console.log(finalOutput);
     }
     return 0;
@@ -261,7 +268,7 @@ async function main() {
   const outputPath: string = o || output;
 
   // Instantiate progress indicator
-  const indicator = ora({text: 'Starting Geostyler CLI'}).start();
+  const indicator = ora({ text: 'Starting Geostyler CLI' }).start();
 
   // Check source path arg.
   if (!sourcePath) {
@@ -279,7 +286,6 @@ async function main() {
   // Try to define type of target (file or dir).
   // Assume the target is the same as the source
   let targetIsFile = sourceIsFile;
-  const outputExists = existsSync(outputPath);
 
   // Dir to file is not possible
   if (!sourceIsFile && targetIsFile) {
@@ -289,17 +295,17 @@ async function main() {
 
   // Get source parser.
   if (!sourceFormat && sourceIsFile) {
-    sourceFormat = getFormatFromFilename(sourcePath)
+    sourceFormat = getFormatFromFilename(sourcePath);
   }
   if (!sourceFormat) {
     indicator.info('No sourceparser was specified. Input will be parsed as a GeoStyler object.');
     sourceFormat = 'geostyler';
   }
-  const sourceParser = getParserFromFormat(sourceFormat)
+  const sourceParser = getParserFromFormat(sourceFormat);
 
   // Get target parser.
   if (!targetFormat && targetIsFile) {
-    targetFormat = getFormatFromFilename(outputPath)
+    targetFormat = getFormatFromFilename(outputPath);
   }
   if (!targetFormat) {
     indicator.info('No targetparser was specified. Output will be a GeoStyler object.');

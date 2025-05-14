@@ -61,6 +61,15 @@ function runAllTests() {
     success = false;
   }
 
+  // test openlayers flatstyle to geostyler
+  outputFile = 'output.json';
+  args = ['start', '--', '-s', 'ol-flat', '-o', outputFile, 'testdata/olFlatStyles/point_simple.json'];
+  runTest(args, outputFile);
+
+  if (checkFileCreated(outputFile) === false) {
+    success = false;
+  }
+
   // test folder output
   args = ['start', '--', '-s', 'sld', '-t', 'qgis', '-o', './output-bulk', 'testdata/sld'];
   runTest(args, outputFile);

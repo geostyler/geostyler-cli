@@ -28,15 +28,17 @@ export const logHelp = () :void => {
     -h / --help   : Display this help and exit.
     -o / --output : Output filename or directory. Required when the source is a directory.
                     For a file leave this empty to write to stdout. [string]
-    -s / --source : Source parser, either "mapbox", "mapfile" or "map", 
+    -s / --source : Source parser, either "mapbox", "mapfile" or "map",
                     "sld" or "se" for SLD - the parser will read the version from the file,
-                    and "qgis" or "qml" for QGIS QML files. If not given, it will be guessed from the extension of the input file. 
+                    "qgis" or "qml" for QGIS QML files, and "ol-flat" for OpenLayers FlatStyles.
+                    If not given, it will be guessed from the extension of the input file.
                     Mandatory if the the target is a directory.
     -t / --target : Target parser, either "mapbox", "sld" (for SLD 1.0), "se" (for SLD 1.1),
-                    and "qgis" or "qml" for QGIS QML files. 
-                    If not given, it will be guessed from the extension of the output file. 
+                    "qgis" or "qml" for QGIS QML files, or "ol-flat" for OpenLayers FlatStyles.
+                    If not given, it will be guessed from the extension of the output file.
                     Mapfiles are not currently supported as target.
                     Mandatory if the the target is a directory.
+    --from-stdin  : Read input from stdin. If this option is set, the input file is ignored.
     -v / --version: Display the version of the program.
   `);
 };
