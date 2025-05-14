@@ -1,3 +1,10 @@
+## [4.4.0](https://github.com/geostyler/geostyler-cli/compare/v4.3.1...v4.4.0) (2025-05-14)
+
+
+### Features
+
+* add support for openlayers flat-styles ([057ff14](https://github.com/geostyler/geostyler-cli/commit/057ff146bfc0158aba29c90ffcf9eb5bd4aacfdf))
+
 ## [4.3.1](https://github.com/geostyler/geostyler-cli/compare/v4.3.0...v4.3.1) (2025-01-13)
 
 
