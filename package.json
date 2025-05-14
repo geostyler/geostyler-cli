@@ -82,5 +82,8 @@
     "terminal-image": "^2.0.0",
     "typescript": "^5.0.4"
   },
-  "funding": "https://opencollective.com/geostyler"
+  "funding": "https://opencollective.com/geostyler",
+  "dependencies": {
+    "geostyler-openlayers-parser": "^5.1.0"
+  }
 }

@@ -5,6 +5,7 @@ import QGISParser from 'geostyler-qgis-parser';
 import MapfileParser from 'geostyler-mapfile-parser';
 import MapboxParser from 'geostyler-mapbox-parser';
 import LyrxParser from 'geostyler-lyrx-parser';
+import OlFlatStyleParser from 'geostyler-openlayers-parser/dist/OlFlatStyleParser';
 
 import {
   existsSync,
@@ -49,6 +50,8 @@ const getParserFromFormat = (inputString: string): StyleParser | undefined => {
     case 'qgis':
     case 'qml':
       return new QGISParser();
+    case 'ol-flat':
+      return new OlFlatStyleParser();
     case 'geostyler':
       return undefined;
     default:
@@ -201,7 +204,7 @@ async function writeFile(
 
     // If no sourceParser is set, just parse it as JSON - it should already be in geostyler format.
     // LyrxParser expects a JSON object as input, so we need to parse it as an extra step.
-    if (!sourceParser || sourceParser instanceof LyrxParser) {
+    if (!sourceParser || sourceParser instanceof LyrxParser || sourceParser instanceof OlFlatStyleParser) {
       inputFileData = JSON.parse(inputFileData);
     }
 
