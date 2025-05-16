@@ -1,3 +1,10 @@
+## [4.4.1](https://github.com/geostyler/geostyler-cli/compare/v4.4.0...v4.4.1) (2025-05-16)
+
+
+### Bug Fixes
+
+* bump geostyler-openlayers-parser ([48cb2d6](https://github.com/geostyler/geostyler-cli/commit/48cb2d62df16e915f97d3161bb7c23dec2d36f3e))
+
 ## [4.4.0](https://github.com/geostyler/geostyler-cli/compare/v4.3.1...v4.4.0) (2025-05-14)
 
 
