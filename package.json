@@ -84,6 +84,6 @@
   },
   "funding": "https://opencollective.com/geostyler",
   "dependencies": {
-    "geostyler-openlayers-parser": "^5.1.0"
+    "geostyler-openlayers-parser": "^5.1.1"
   }
 }
