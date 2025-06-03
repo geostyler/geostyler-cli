@@ -85,7 +85,7 @@ geostyler-cli -s qml -t sld -o point_simple.sld testdata/point_simple.qml
 To convert all files in a directory:
 
 ```bash
-geostyler-cli [options] -t qgis -o /path/to/output /path/to/input/
+geostyler-cli [options] -t qgis -o /path/to/output /path/to/input/ [--quiet]
 # example
 geostyler-cli -s sld -t qgis -o ./output-sld testdata/sld
 ```
@@ -117,6 +117,7 @@ If not given, it will be guessed from the extension of the output file.
 Mapfiles are not currently supported as target.
 Mandatory if the the target is a directory.
 * `-v` / `--version` Display the version of the program.
+* `--quiet` Suppress all interactive output.
 
 ## Developing
 
