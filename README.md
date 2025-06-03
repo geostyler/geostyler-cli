@@ -106,19 +106,19 @@ geostyler-cli -t sld testdata/point_simple.qml
 * `-h` / `--help` Display the help and exit.
 * `-o` / `--output` Output filename or directory. Required when the source is a directory.
 For a file leave this empty to write to `stdout`. [string]
-* `-s` / `--source` Source parser, either `mapbox`, `mapfile` or `map`, 
-"sld" or "se" for SLD - the parser will read the version from the file,
-"qgis" or "qml" for QGIS QML files, and "ol-flat" for OpenLayers FlatStyles.
+* `-s` / `--source` Source parser, either `mapbox`, `mapfile`, `map`
+`sld` - the parser will read the version from the file -
+`qgis` or `qml` for QGIS QML files, and `ol-flat` for OpenLayers FlatStyles.
 If not given, it will be guessed from the extension of the input file.
 Mandatory if the target is a directory.
 * `-t` / `--target` Target parser, either `mapbox`, `sld`,
-"qgis" or "qml" for QGIS QML files, or "ol-flat" for OpenLayers FlatStyles.
+`qgis` or `qml` for QGIS QML files, or `ol-flat` for OpenLayers FlatStyles.
 If not given, it will be guessed from the extension of the output file.
 Mapfiles are not currently supported as target.
 Mandatory if the target is a directory.
-* `--sourceOptions` options for the constructor of the source parser. This must
+* `--sourceOptions` Options for the constructor of the source parser. This must
 be a comma-separated string like `--sourceOptions 'version:1.1.0,debug:true'`.
-* `--targetOptions` same as sourceOptions, but for the target parser.
+* `--targetOptions` Same as sourceOptions, but for the target parser.
 * `-v` / `--version` Display the version of the program.
 * `--quiet` Suppress all interactive output.
 
