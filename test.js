@@ -19,11 +19,13 @@ function runTest(args, outputFile) {
   console.log(`Status: ${result.status.toString()}`);
   console.log(`Output: ${result.stdout.toString()}`);
   console.log(`Error: ${result.stderr.toString()}`);
+  return result;
 }
 
 function runAllTests() {
 
   let success = true;
+  let testResult;
 
   // test sld to qgis
   let outputFile = 'output.qml';
@@ -79,6 +81,30 @@ function runAllTests() {
   }
 
   if (checkFileCreated('./output-bulk/sld/point_simpletriangle.qml') === false) {
+    success = false;
+  }
+
+  // test writing only styles to stdout
+  args = ['start', '--', '-s', 'sld', '-t', 'sld', 'testdata/sld/point_simplepoint.sld'];
+  testResult = runTest(args, outputFile);
+
+  if (!testResult.stdout.toString().startsWith('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>')) {
+    success = false;
+  }
+
+  // test writing everything else to stderr
+  args = ['start', '--', '-s', 'sld', '-t', 'sld', 'testdata/sld/point_simplepoint.sld'];
+  testResult = runTest(args, outputFile);
+
+  if (!testResult.stderr.toString().includes('translated successfully')) {
+    success = false;
+  }
+
+  // test not writing interactive messages in quiet mode
+  args = ['start', '--', '-s', 'sld', '-t', 'sld', 'testdata/sld/point_simplepoint.sld', '--quiet'];
+  testResult = runTest(args, outputFile);
+
+  if (testResult.stderr.toString().includes('translated successfully')) {
     success = false;
   }
 

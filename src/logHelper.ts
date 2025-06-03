@@ -16,8 +16,8 @@ export const logHelp = () :void => {
   logTitle();
   console.log(`
   Basic syntax:
-    npx geostyler-cli [options] [input_file | [input_directory]]
-    geostyler-cli [options] [input_file | input_directory]
+    npx geostyler-cli [options] [input_file | [input_directory]] [--quiet]
+    geostyler-cli [options] [input_file | input_directory] [--quiet]
 
   Example:
     npx geostyler-cli -s sld -t qgis -o output.qml [YOUR_SLD.sld]
@@ -40,6 +40,7 @@ export const logHelp = () :void => {
                     Mandatory if the the target is a directory.
     --from-stdin  : Read input from stdin. If this option is set, the input file is ignored.
     -v / --version: Display the version of the program.
+    --quiet       : Suppress all interactive output.
   `);
 };
 

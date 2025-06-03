@@ -162,14 +162,11 @@ function handleResult(result: ReadStyleResult | WriteStyleResult, parser: StyleP
     throw errors;
   }
   if (warnings) {
-    // eslint-disable-next-line no-console
-    warnings.map(console.warn);
+    warnings.map((warning) => process.stderr.write(warning));
   }
   if (unsupportedProperties) {
-    // eslint-disable-next-line no-console
-    console.log(`${stage} parser ${parser.title} does not support the following properties:`);
-    // eslint-disable-next-line no-console
-    console.log(unsupportedProperties);
+    process.stderr.write(`${stage} parser ${parser.title} does not support the following properties:\n`);
+    process.stderr.write(JSON.stringify(unsupportedProperties));
   }
   return output;
 }
@@ -224,8 +221,7 @@ async function writeFile(
       indicator.succeed(`File "${sourceFile}" translated successfully. Output written to ${targetFile}`);
     } else {
       indicator.succeed(`File "${sourceFile}" translated successfully. Output written to stdout:\n`);
-      // eslint-disable-next-line no-console
-      console.log(finalOutput);
+      process.stdout.write(finalOutput);
     }
     return 0;
   } catch (error) {
@@ -248,7 +244,8 @@ async function main() {
     help,
     v,
     version,
-    _: unnamedArgs
+    quiet,
+    _: unnamedArgs,
   } = args;
 
   if (h || help) {
@@ -268,7 +265,10 @@ async function main() {
   const outputPath: string = o || output;
 
   // Instantiate progress indicator
-  const indicator = ora({ text: 'Starting Geostyler CLI' }).start();
+  const indicator = ora({
+    text: 'Starting Geostyler CLI',
+    isSilent: !!quiet || false,
+  }).start();
 
   // Check source path arg.
   if (!sourcePath) {
