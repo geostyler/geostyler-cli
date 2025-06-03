@@ -1,7 +1,7 @@
 import gradient from 'gradient-string';
 import version from './version';
 
-export const logTitle = () :void => {
+export const logTitle = () => {
   console.log(gradient('#611E82', '#272C82', '#00943D', '#FFED00', '#F48E00', '#E7000E').multiline(`
   ██████╗  ███████╗ ██████╗ ███████╗████████╗██╗   ██╗██╗     ███████╗██████╗
   ██╔════╝ ██╔════╝██╔═══██╗██╔════╝╚══██╔══╝╚██╗ ██╔╝██║     ██╔════╝██╔══██╗
@@ -44,6 +44,6 @@ export const logHelp = () :void => {
   `);
 };
 
-export const logVersion = () : void => {
+export const logVersion = () => {
   console.log(`v${version}`);
 };

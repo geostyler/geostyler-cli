@@ -88,7 +88,14 @@ function runAllTests() {
   args = ['start', '--', '-s', 'sld', '-t', 'sld', 'testdata/sld/point_simplepoint.sld'];
   testResult = runTest(args, outputFile);
 
-  if (!testResult.stdout.toString().startsWith('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>')) {
+  const stdout = testResult.stdout.toString();
+  // We have to remove the first 4 lines of the output
+  // since we are running the tests via npm test which
+  // adds the command itself to stdout.
+  const cleanedStdout = stdout.split('\n').slice(4).join('\n');
+  console.log(`stdout: ${cleanedStdout}`);
+  if (!cleanedStdout.startsWith('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>')) {
+    console.log('Expected SLD output not found in stdout');
     success = false;
   }
 
@@ -97,6 +104,7 @@ function runAllTests() {
   testResult = runTest(args, outputFile);
 
   if (!testResult.stderr.toString().includes('translated successfully')) {
+    console.log('Expected translation success message not found in stderr');
     success = false;
   }
 
@@ -105,6 +113,7 @@ function runAllTests() {
   testResult = runTest(args, outputFile);
 
   if (testResult.stderr.toString().includes('translated successfully')) {
+    console.log('Expected no interactive messages in quiet mode');
     success = false;
   }
 
