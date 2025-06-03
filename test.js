@@ -143,7 +143,7 @@ function runAllTests() {
     success = false;
   }
 
-  // test not writing interactive messages in quiet ode
+  // test not writing interactive messages in quiet mode
   args = ['start', '--', '-s', 'sld', '-t', 'sld', 'testdata/sld/point_simplepoint.sld', '--quiet'];
   testResult = runTest(args, outputFile);
 

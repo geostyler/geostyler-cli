@@ -118,7 +118,7 @@ const computeTargetPath = (
   outputPath = path.normalize(outputPath);
 
   // Case file -> directory
-  // Get output name from source and add extension.
+  // Gets output name from source and add extension.
   const pathElements = sourcePathFile.split(path.sep);
   const lastElement = pathElements?.pop();
   pathElements.shift();
@@ -271,20 +271,20 @@ async function main() {
     isSilent: !!quiet || false,
   }).start();
 
-  // Check source path arg.
+  // Check the source path arg.
   if (!sourcePath) {
     indicator.fail('No input file or folder specified.');
     process.exit(1);
   }
 
-  // Check source exists, is a dir or a file ?
+  // Check a source exists, is a dir or a file?
   if (sourcePath !== '-' && !existsSync(sourcePath)) {
     indicator.fail('Input file or folder does not exist.');
     process.exit(1);
   }
   const sourceIsFile = (sourcePath !== '-') && lstatSync(sourcePath).isFile();
 
-  // Try to define type of target (file or dir).
+  // Try to define the type of target (file or dir).
   // Assume the target is the same as the source
   let targetIsFile = sourceIsFile;
 
@@ -305,7 +305,7 @@ async function main() {
   const sourceParserOptions = getParserOptions(sourceOptions);
   const sourceParser = getParserFromFormat(sourceFormat, sourceParserOptions);
 
-  // Get target parser.
+  // Get the target parser.
   if (!targetFormat && targetIsFile) {
     targetFormat = getFormatFromFilename(outputPath);
   }
@@ -316,16 +316,16 @@ async function main() {
   const targetParserOptions = getParserOptions(targetOptions);
   const targetParser = getParserFromFormat(targetFormat, targetParserOptions);
 
-  // Get source(s) path(s).
+  // Get the source(s) path(s).
   const sourcePaths = collectPaths(sourcePath, sourceIsFile);
 
   const writePromises: Promise<number>[] = [];
   sourcePaths.forEach((srcPath) => {
     indicator.text = `Transforming ${srcPath} from ${sourceFormat} to ${targetFormat}`;
-    // Get correct output path
+    // Get a correct output path
     const outputPathFile = computeTargetPath(srcPath, outputPath, targetIsFile, targetFormat);
 
-    // Add the the translation promise.
+    // Add the translation promise.
     writePromises.push(writeFile(srcPath, sourceParser, outputPathFile, targetParser, indicator));
   });
 
