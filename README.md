@@ -111,11 +111,14 @@ For a file leave this empty to write to `stdout`. [string]
 "qgis" or "qml" for QGIS QML files, and "ol-flat" for OpenLayers FlatStyles.
 If not given, it will be guessed from the extension of the input file.
 Mandatory if the the target is a directory.
-* `-t` / `--target` Target parser, either `mapbox`, `sld` (for SLD 1.0), `se` (for SLD 1.1),
+* `-t` / `--target` Target parser, either `mapbox`, `sld`,
 "qgis" or "qml" for QGIS QML files, or "ol-flat" for OpenLayers FlatStyles.
 If not given, it will be guessed from the extension of the output file.
 Mapfiles are not currently supported as target.
 Mandatory if the the target is a directory.
+* --sourceOptions options for the constructor of the source parser. This must be a comma-separated 
+string like `--sourceOptions 'version:1.1.0,debug:true'`.
+* --targetOptions same as sourceOptions, but for the target parser.
 * `-v` / `--version` Display the version of the program.
 * `--quiet` Suppress all interactive output.
 

@@ -23,6 +23,7 @@ import {
   logVersion
 } from './logHelper.js';
 import path from 'path';
+import {getParserOptions} from './utils.js';
 
 const ensureTrailingSlash = (inputString: string): string => {
   if (!inputString) {
@@ -31,7 +32,7 @@ const ensureTrailingSlash = (inputString: string): string => {
   return inputString.at(- 1) === path.sep ? inputString : `${inputString}` + path.sep;
 };
 
-const getParserFromFormat = (inputString: string): StyleParser | undefined => {
+const getParserFromFormat = (inputString: string, parserOptions: Record<string, unknown>): StyleParser | undefined => {
   if (!inputString) {
     throw new Error('No input');
   }
@@ -39,17 +40,15 @@ const getParserFromFormat = (inputString: string): StyleParser | undefined => {
     case 'lyrx':
       return new LyrxParser();
     case 'mapbox':
-      return new MapboxParser();
+      return new MapboxParser(parserOptions);
     case 'mapfile':
     case 'map':
-      return new MapfileParser();
+      return new MapfileParser(parserOptions);
     case 'sld':
-      return new SLDParser();
-    case 'se':
-      return new SLDParser({ sldVersion: '1.1.0' });
+      return new SLDParser(parserOptions);
     case 'qgis':
     case 'qml':
-      return new QGISParser();
+      return new QGISParser(parserOptions);
     case 'ol-flat':
       return new OlFlatStyleParser();
     case 'geostyler':
@@ -236,8 +235,10 @@ async function main() {
   const {
     s,
     source,
+    sourceOptions,
     t,
     target,
+    targetOptions,
     o,
     output,
     h,
@@ -301,7 +302,8 @@ async function main() {
     indicator.info('No sourceparser was specified. Input will be parsed as a GeoStyler object.');
     sourceFormat = 'geostyler';
   }
-  const sourceParser = getParserFromFormat(sourceFormat);
+  const sourceParserOptions = getParserOptions(sourceOptions);
+  const sourceParser = getParserFromFormat(sourceFormat, sourceParserOptions);
 
   // Get target parser.
   if (!targetFormat && targetIsFile) {
@@ -311,7 +313,8 @@ async function main() {
     indicator.info('No targetparser was specified. Output will be a GeoStyler object.');
     targetFormat = 'geostyler';
   }
-  const targetParser = getParserFromFormat(targetFormat);
+  const targetParserOptions = getParserOptions(targetOptions);
+  const targetParser = getParserFromFormat(targetFormat, targetParserOptions);
 
   // Get source(s) path(s).
   const sourcePaths = collectPaths(sourcePath, sourceIsFile);
