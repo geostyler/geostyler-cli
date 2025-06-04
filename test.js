@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { spawnSync } = require('child_process');
+const { getParserOptions } = require('./build/src/utils.js');
 
 function checkFileCreated(outputFile) {
   try {
@@ -20,6 +21,40 @@ function runTest(args, outputFile) {
   console.log(`Output: ${result.stdout.toString()}`);
   console.log(`Error: ${result.stderr.toString()}`);
   return result;
+}
+
+function parseOptionsTest() {
+  const result = getParserOptions('version:1.2.0,debug:true,silent:false,num:1.1');
+  if (result.version !== '1.2.0') {
+    return false;
+  }
+  if (result.debug !== true) {
+    return false;
+  }
+  if (result.silent !== false) {
+    return false;
+  }
+  return result.num === 1.1;
+}
+
+function parseEmptyOptionsTest() {
+  const isEmptyObject = (obj) => {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  };
+  let result = getParserOptions(undefined);
+  if (!isEmptyObject(result)) {
+    return false;
+  }
+  result = getParserOptions(null);
+  if (!isEmptyObject(result)) {
+    return false;
+  }
+  result = getParserOptions('');
+  if (!isEmptyObject(result)) {
+    return false;
+  }
+  result = getParserOptions('true');
+  return isEmptyObject(result);
 }
 
 function runAllTests() {
@@ -115,6 +150,14 @@ function runAllTests() {
   if (testResult.stderr.toString().includes('translated successfully')) {
     console.log('Expected no interactive messages in quiet mode');
     success = false;
+  }
+
+  // Test the parseOptions functions.
+  if (!parseOptionsTest() || !parseEmptyOptionsTest()) {
+    console.log('Parser options tests failed');
+    success = false;
+  } else {
+    console.log('Parser options tests ok');
   }
 
   return success;

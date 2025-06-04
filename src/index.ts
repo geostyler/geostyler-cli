@@ -23,6 +23,7 @@ import {
   logVersion
 } from './logHelper.js';
 import path from 'path';
+import {getParserOptions} from './utils.js';
 
 const ensureTrailingSlash = (inputString: string): string => {
   if (!inputString) {
@@ -31,7 +32,7 @@ const ensureTrailingSlash = (inputString: string): string => {
   return inputString.at(- 1) === path.sep ? inputString : `${inputString}` + path.sep;
 };
 
-const getParserFromFormat = (inputString: string): StyleParser | undefined => {
+const getParserFromFormat = (inputString: string, parserOptions: Record<string, unknown>): StyleParser | undefined => {
   if (!inputString) {
     throw new Error('No input');
   }
@@ -39,17 +40,15 @@ const getParserFromFormat = (inputString: string): StyleParser | undefined => {
     case 'lyrx':
       return new LyrxParser();
     case 'mapbox':
-      return new MapboxParser();
+      return new MapboxParser(parserOptions);
     case 'mapfile':
     case 'map':
-      return new MapfileParser();
+      return new MapfileParser(parserOptions);
     case 'sld':
-      return new SLDParser();
-    case 'se':
-      return new SLDParser({ sldVersion: '1.1.0' });
+      return new SLDParser(parserOptions);
     case 'qgis':
     case 'qml':
-      return new QGISParser();
+      return new QGISParser(parserOptions);
     case 'ol-flat':
       return new OlFlatStyleParser();
     case 'geostyler':
@@ -119,7 +118,7 @@ const computeTargetPath = (
   outputPath = path.normalize(outputPath);
 
   // Case file -> directory
-  // Get output name from source and add extension.
+  // Gets output name from source and add extension.
   const pathElements = sourcePathFile.split(path.sep);
   const lastElement = pathElements?.pop();
   pathElements.shift();
@@ -236,8 +235,10 @@ async function main() {
   const {
     s,
     source,
+    sourceOptions,
     t,
     target,
+    targetOptions,
     o,
     output,
     h,
@@ -270,20 +271,20 @@ async function main() {
     isSilent: !!quiet || false,
   }).start();
 
-  // Check source path arg.
+  // Check the source path arg.
   if (!sourcePath) {
     indicator.fail('No input file or folder specified.');
     process.exit(1);
   }
 
-  // Check source exists, is a dir or a file ?
+  // Check a source exists, is a dir or a file?
   if (sourcePath !== '-' && !existsSync(sourcePath)) {
     indicator.fail('Input file or folder does not exist.');
     process.exit(1);
   }
   const sourceIsFile = (sourcePath !== '-') && lstatSync(sourcePath).isFile();
 
-  // Try to define type of target (file or dir).
+  // Try to define the type of target (file or dir).
   // Assume the target is the same as the source
   let targetIsFile = sourceIsFile;
 
@@ -301,9 +302,10 @@ async function main() {
     indicator.info('No sourceparser was specified. Input will be parsed as a GeoStyler object.');
     sourceFormat = 'geostyler';
   }
-  const sourceParser = getParserFromFormat(sourceFormat);
+  const sourceParserOptions = getParserOptions(sourceOptions);
+  const sourceParser = getParserFromFormat(sourceFormat, sourceParserOptions);
 
-  // Get target parser.
+  // Get the target parser.
   if (!targetFormat && targetIsFile) {
     targetFormat = getFormatFromFilename(outputPath);
   }
@@ -311,18 +313,19 @@ async function main() {
     indicator.info('No targetparser was specified. Output will be a GeoStyler object.');
     targetFormat = 'geostyler';
   }
-  const targetParser = getParserFromFormat(targetFormat);
+  const targetParserOptions = getParserOptions(targetOptions);
+  const targetParser = getParserFromFormat(targetFormat, targetParserOptions);
 
-  // Get source(s) path(s).
+  // Get the source(s) path(s).
   const sourcePaths = collectPaths(sourcePath, sourceIsFile);
 
   const writePromises: Promise<number>[] = [];
   sourcePaths.forEach((srcPath) => {
     indicator.text = `Transforming ${srcPath} from ${sourceFormat} to ${targetFormat}`;
-    // Get correct output path
+    // Get a correct output path
     const outputPathFile = computeTargetPath(srcPath, outputPath, targetIsFile, targetFormat);
 
-    // Add the the translation promise.
+    // Add the translation promise.
     writePromises.push(writeFile(srcPath, sourceParser, outputPathFile, targetParser, indicator));
   });
 
