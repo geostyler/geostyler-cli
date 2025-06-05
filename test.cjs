@@ -7,7 +7,6 @@ function checkFileCreated(outputFile) {
     fs.accessSync(outputFile, fs.constants.F_OK);
     return true;
   } catch (err) {
-    /* eslint-disable no-console */
     console.log(`The file: ${outputFile} was not found`);
     return false;
   }
@@ -16,7 +15,6 @@ function checkFileCreated(outputFile) {
 function runTest(args, outputFile) {
   const cmd = 'npm';
   const result = spawnSync(cmd, args, { shell: true });
-  /* eslint-disable no-console */
   console.log(`Status: ${result.status.toString()}`);
   console.log(`Output: ${result.stdout.toString()}`);
   console.log(`Error: ${result.stderr.toString()}`);

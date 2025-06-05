@@ -5,7 +5,7 @@ import json from '@rollup/plugin-json';
 export default {
   input: 'build/src/index.js',
   output: {
-    file: 'dist/geostyler.js',
+    file: 'dist/geostyler.cjs',
     format: 'cjs'
   },
   plugins: [nodeResolve({preferBuiltins: true}), commonjs(), json()]
