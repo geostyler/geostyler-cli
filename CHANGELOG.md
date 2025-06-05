@@ -1,3 +1,22 @@
+## [5.0.0](https://github.com/geostyler/geostyler-cli/compare/v4.4.1...v5.0.0) (2025-06-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* The target parser "se" is removed. Now you must use
+"--target sld --targetOptions 'sldVersion:1.1.0'"
+
+### Features
+
+* allow parser constructor options and remove se ([d9f7c84](https://github.com/geostyler/geostyler-cli/commit/d9f7c840719d3be1a7f72ec470b37cf612593c05))
+* only write style to stdout and add quiet mode ([62bc1dd](https://github.com/geostyler/geostyler-cli/commit/62bc1ddf16fa6622ff3e0f47282148082331c44e))
+
+
+### Bug Fixes
+
+* add options info to the helper ([5a7ff8b](https://github.com/geostyler/geostyler-cli/commit/5a7ff8bf007e76e518d46635221e899ef1531f28))
+* typos ([d75575d](https://github.com/geostyler/geostyler-cli/commit/d75575d4e0e60cdca5dbf784a6a63f54a2283db4))
+
 ## [4.4.1](https://github.com/geostyler/geostyler-cli/compare/v4.4.0...v4.4.1) (2025-05-16)
 
 

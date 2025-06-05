@@ -1,6 +1,6 @@
 {
   "name": "geostyler-cli",
-  "version": "4.4.1",
+  "version": "5.0.0",
   "description": "",
   "main": "dist/geostyler.js",
   "files": [
