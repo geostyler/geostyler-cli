@@ -16,7 +16,7 @@
         "@semantic-release/exec": "^7.1.0",
         "@semantic-release/git": "^10.0.1",
         "@stylistic/eslint-plugin": "^4.4.1",
-        "@terrestris/eslint-config-typescript": "^9.0.0",
+        "@terrestris/eslint-config-typescript": "^10.0.0",
         "@types/gradient-string": "^1.1.6",
         "@types/minimist": "^1.2.5",
         "@types/node": "^22.15.29",
@@ -321,7 +321,7 @@
 
     "@terrestris/base-util": ["@terrestris/base-util@1.1.1", "", { "dependencies": { "@ungap/url-search-params": "^0.2.2", "lodash": "^4.17.21", "loglevel": "^1.8.0", "query-string": "^9.0.0", "url-parse": "^1.5.10", "validator": "^13.11.0" } }, "sha512-Y9z9viEFdmTr63N+5ijBn69hX4wS8cJvx+rA0QNQ2/a+kgjT1RjZ2a5Lhp5zYAu03OshJv8wvJaCdPiietRFEg=="],
 
-    "@terrestris/eslint-config-typescript": ["@terrestris/eslint-config-typescript@9.0.0", "", { "peerDependencies": { "@stylistic/eslint-plugin": ">= ~4", "@typescript-eslint/eslint-plugin": ">= ~8", "@typescript-eslint/parser": ">= ~8", "eslint": ">= ~9", "typescript": ">= ~5" } }, "sha512-B88h+1B9XAR+fa4t3J1m6+BEJ1FnWNnI5GdKxFaaVv+ab6V+AWeSyTKcPY5Rh69uvhMJluIZ7MYQAOL/Xjk47g=="],
+    "@terrestris/eslint-config-typescript": ["@terrestris/eslint-config-typescript@10.0.0", "", { "peerDependencies": { "@stylistic/eslint-plugin": ">= ~5", "@typescript-eslint/eslint-plugin": ">= ~8", "@typescript-eslint/parser": ">= ~8", "eslint": ">= ~9", "typescript": ">= ~5" } }, "sha512-SbuHOsrMRcLmDMnRIv32mpVvXWCxFBRedln+1OQNw1BRL9YhtRM3y+4fxBP5C1GtRvN0084u4OTDn3dNTSxWdQ=="],
 
     "@tokenizer/token": ["@tokenizer/token@0.3.0", "", {}, "sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A=="],
 
