@@ -34,7 +34,7 @@ export const logHelp = (): void => {
                      If not given, it will be guessed from the extension of the input file.
                      Mandatory if the the target is a directory.
     -t / --target  : Target parser, either "mapbox", "sld",
-                     "qgis" or "qml" for QGIS QML files, or "ol-flat" for OpenLayers FlatStyles.
+                     "qgis" or "qml" for QGIS QML files.
                      If not given, it will be guessed from the extension of the output file.
                      Mapfiles are not currently supported as target.
                      Mandatory if the the target is a directory.
