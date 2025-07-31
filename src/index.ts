@@ -189,6 +189,9 @@ async function writeFile(
   if (targetParser instanceof MapfileParser) {
     throw new Error('MapfileParser is not supported as target parser.');
   }
+  if (targetParser instanceof OlFlatStyleParser) {
+    throw new Error('OlFlatStyleParser is not supported as target parser.');
+  }
   const indicator = oraIndicator; // for linter.
 
   try {
