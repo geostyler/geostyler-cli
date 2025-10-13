@@ -84,9 +84,9 @@
     "geostyler-qgis-parser": "^4.0.2",
     "geostyler-sld-parser": "^8.1.0",
     "geostyler-style": "^10.5.0",
-    "gradient-string": "^3.0.0",
+    "gradient-string": "^2.0.2",
+    "minimist": "^1.2.8",
     "ol": "^10.5.0",
-    "ora": "8.2.0",
-    "minimist": "^1.2.8"
+    "ora": "^5.4.1"
   }
 }
