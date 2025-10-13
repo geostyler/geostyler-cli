@@ -1,3 +1,10 @@
+## [5.0.2](https://github.com/geostyler/geostyler-cli/compare/v5.0.1...v5.0.2) (2025-10-13)
+
+
+### Bug Fixes
+
+* downgrade ora and gradient-string to prevent segfault ([d2a930f](https://github.com/geostyler/geostyler-cli/commit/d2a930f4fd201a0d8c35db2a37a6c38fc8e99ec7))
+
 ## [5.0.1](https://github.com/geostyler/geostyler-cli/compare/v5.0.0...v5.0.1) (2025-10-13)
 
 
