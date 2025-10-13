@@ -11,17 +11,17 @@
     "geostyler-cli": "dist/geostyler.cjs"
   },
   "scripts": {
-    "build": "npm run build-clean && npm run build-only",
+    "build": "bun run build-clean && bun run build-only",
     "build-clean": "rimraf build/ dist/",
     "build-only": "tsc -p tsconfig.json && rollup -c rollup.config.mjs",
-    "lint:build": "npm run lint && npm run build",
+    "lint:build": "bun run lint && bun run build",
     "start": "node dist/geostyler.cjs",
     "lint": "eslint . && tsc --noEmit --project tsconfig.json",
     "test": "node test.cjs",
-    "build-binaries": "npm run build && pkg dist/geostyler.cjs --targets node18-linux-x64,node18-macos-x64,node18-win-x64 --out-path binaries",
-    "package-binaries": "npm run build-binaries && node package-binaries.cjs",
-    "prepublishOnly": "npm run build",
-    "postpublish": "npm run package-binaries"
+    "build-binaries": "bun run build && pkg dist/geostyler.cjs --targets node18-linux-x64,node18-macos-x64,node18-win-x64 --out-path binaries",
+    "package-binaries": "bun run build-binaries && node package-binaries.cjs",
+    "prepublishOnly": "bun run build",
+    "postpublish": "bun run package-binaries"
   },
   "pkg": {
     "targets": [
