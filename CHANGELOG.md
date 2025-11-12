@@ -1,3 +1,10 @@
+## [5.0.3](https://github.com/geostyler/geostyler-cli/compare/v5.0.2...v5.0.3) (2025-11-12)
+
+
+### Bug Fixes
+
+* update docs to trigger release ([8258b90](https://github.com/geostyler/geostyler-cli/commit/8258b906aa86f96374311ef821a3f1e4a1cbf10a))
+
 ## [5.0.2](https://github.com/geostyler/geostyler-cli/compare/v5.0.1...v5.0.2) (2025-10-13)
 
 
