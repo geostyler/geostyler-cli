@@ -80,7 +80,7 @@
     "geostyler-lyrx-parser": "^1.2.0",
     "geostyler-mapbox-parser": "^6.1.1",
     "geostyler-mapfile-parser": "^4.0.1",
-    "geostyler-openlayers-parser": "^5.2.0",
+    "geostyler-openlayers-parser": "^5.3.0",
     "geostyler-qgis-parser": "^4.0.2",
     "geostyler-sld-parser": "^8.1.0",
     "geostyler-style": "^10.5.0",
