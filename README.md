@@ -69,7 +69,6 @@ npm update -g geostyler-cli
 npm uninstall -g geostyler-cli
 ```
 
-
 ## Syntax and examples
 
 To convert a single file:
