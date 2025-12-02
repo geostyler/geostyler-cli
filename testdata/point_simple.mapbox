@@ -1,0 +1,18 @@
+{
+  "version": 8,
+  "name": "Simple Point",
+  "layers": [
+    {
+      "type": "circle",
+      "paint": {
+        "circle-radius": 3,
+        "circle-color": "#FF0000",
+        "circle-opacity": 0.5,
+        "circle-stroke-color": "#0000FF",
+        "circle-stroke-opacity": 0.7
+      },
+      "id": "r0_sy0_st0"
+    }
+  ],
+  "sources": {}
+}

@@ -202,8 +202,14 @@ async function writeFile(
       : await promises.readFile(sourceFile, 'utf-8');
 
     // If no sourceParser is set, just parse it as JSON - it should already be in geostyler format.
-    // LyrxParser expects a JSON object as input, so we need to parse it as an extra step.
-    if (!sourceParser || sourceParser instanceof LyrxParser || sourceParser instanceof OlFlatStyleParser) {
+    // LyrxParser, OlFlatStyleParser and MapboxParser expect a JSON object as input,
+    // so we need to parse it as an extra step.
+    if (
+      !sourceParser
+      || sourceParser instanceof LyrxParser
+      || sourceParser instanceof OlFlatStyleParser
+      || sourceParser instanceof MapboxParser
+    ) {
       inputFileData = JSON.parse(inputFileData);
     }
 
