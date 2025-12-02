@@ -1,3 +1,10 @@
+## [5.0.4](https://github.com/geostyler/geostyler-cli/compare/v5.0.3...v5.0.4) (2025-12-02)
+
+
+### Bug Fixes
+
+* reading mapbox styles ([61efff0](https://github.com/geostyler/geostyler-cli/commit/61efff036a354b354b6505fa336ef99bef23baf1))
+
 ## [5.0.3](https://github.com/geostyler/geostyler-cli/compare/v5.0.2...v5.0.3) (2025-11-12)
 
 
