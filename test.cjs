@@ -105,6 +105,15 @@ function runAllTests() {
     success = false;
   }
 
+  // test mapbox style to geostyler
+  outputFile = 'output.json';
+  args = ['start', '--', '-s', 'mapbox', '-o', outputFile, 'testdata/point_simple.mapbox'];
+  runTest(args, outputFile);
+
+  if (checkFileCreated(outputFile) === false) {
+    success = false;
+  }
+
   // test folder output
   args = ['start', '--', '-s', 'sld', '-t', 'qgis', '-o', './output-bulk', 'testdata/sld'];
   runTest(args, outputFile);
@@ -152,10 +161,10 @@ function runAllTests() {
 
   // Test the parseOptions functions.
   if (!parseOptionsTest() || !parseEmptyOptionsTest()) {
-    console.log('Parser options tests failed');
+    console.log('\n\n\nParser options tests failed');
     success = false;
   } else {
-    console.log('Parser options tests ok');
+    console.log('\n\n\nParser options tests ok');
   }
 
   return success;
