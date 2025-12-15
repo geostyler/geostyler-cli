@@ -18,7 +18,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Release 🚀
-        uses: cycjimmy/semantic-release-action@v4.1.0
+        uses: cycjimmy/semantic-release-action@v6.0.0
         id: semantic
         env:
           GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
