@@ -38,7 +38,7 @@ const getParserFromFormat = (inputString: string, parserOptions: Record<string, 
   }
   switch (inputString.toLowerCase()) {
     case 'lyrx':
-      return new LyrxParser();
+      return new LyrxParser(parserOptions);
     case 'mapbox':
       return new MapboxParser(parserOptions);
     case 'mapfile':
