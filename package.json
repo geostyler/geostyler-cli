@@ -72,7 +72,7 @@
     "pkg": "^5.8.1",
     "rimraf": "^6.0.1",
     "rollup": "^4.41.1",
-    "terminal-image": "^3.1.1",
+    "terminal-image": "^4.0.0",
     "typescript": "^5.8.3"
   },
   "funding": "https://opencollective.com/geostyler",
