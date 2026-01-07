@@ -1,15 +1,16 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "geostyler-cli",
       "dependencies": {
-        "geostyler-lyrx-parser": "^1.2.0",
+        "geostyler-lyrx-parser": "^1.3.0",
         "geostyler-mapbox-parser": "^6.1.1",
         "geostyler-mapfile-parser": "^4.0.1",
         "geostyler-openlayers-parser": "^5.3.0",
         "geostyler-qgis-parser": "^4.0.2",
-        "geostyler-sld-parser": "^8.1.0",
+        "geostyler-sld-parser": "^8.2.0",
         "geostyler-style": "^10.5.0",
         "gradient-string": "^2.0.2",
         "minimist": "^1.2.8",
@@ -641,7 +642,7 @@
 
     "geostyler-cql-parser": ["geostyler-cql-parser@4.0.2", "", { "dependencies": { "geostyler-style": "^10.0.0" } }, "sha512-5vLbayLDTIb1OsURV2aZklbL7I7T4DTESuYoDD51Q+c39JX6ezv9CdtTFBRYPQmCEBCC85u5LXoCtLDl5MOxnw=="],
 
-    "geostyler-lyrx-parser": ["geostyler-lyrx-parser@1.2.0", "", { "dependencies": { "geostyler-style": "^10.3.0" } }, "sha512-hug3Y7q7lpwvm15BOsksNyj45dOa4+T/kP5jy1peznhOH/rAlyOMIKzO+PmfLdqhNoBY0I9dscPgCLGgds964Q=="],
+    "geostyler-lyrx-parser": ["geostyler-lyrx-parser@1.3.0", "", { "dependencies": { "geostyler-style": "^10.4.0", "jimp": "^1.6.0" } }, "sha512-UPMSIYoEgixbKHVdxo4JxMYWiTaPRFIWpIrwL6irz0Adq/dLxrZm8/vyxEKkDyabD/tsavTsy9nri2uPYy4I/g=="],
 
     "geostyler-mapbox-parser": ["geostyler-mapbox-parser@6.1.1", "", { "dependencies": { "@types/mapbox-gl": "^2.7.18", "geostyler-style": "^10.0.0" } }, "sha512-2KUoCcYzMDc3wWcgQe4FhhKgMl8nrp3NWjECWGP+vlIfk7Hf5cKW4sQwr/la8LG1DHs/KILh+g4r03caKxSZbw=="],
 
@@ -651,7 +652,7 @@
 
     "geostyler-qgis-parser": ["geostyler-qgis-parser@4.0.2", "", { "dependencies": { "buffer": "^6.0.3", "color": "^4.2.3", "core-js": "^3.26.1", "geostyler-cql-parser": "^4.0.0", "geostyler-style": "^10.0.0", "string_decoder": "^1.3.0", "timers": "^0.1.1", "xml2js": "^0.6.0" } }, "sha512-rRLGMgvxlclpjGlQjgMIZ6VeMuXUqZK5VFF+vdDScM4Tg+pDBIfM0+jIIbTo7+vLhsgsTddxaVyNM4axJzHibA=="],
 
-    "geostyler-sld-parser": ["geostyler-sld-parser@8.1.0", "", { "dependencies": { "fast-xml-parser": "^5.2.3", "geostyler-style": "^10.3.0", "lodash": "^4.17.21" } }, "sha512-9iDxWAR2nkkhMgBcAe+XgbmDdw36OdTEyGfXZcac5d7XbK8/KGZbxcKiQRiE9/+gPtFGIoc5+PSjjgWoJHMaaw=="],
+    "geostyler-sld-parser": ["geostyler-sld-parser@8.2.0", "", { "dependencies": { "fast-xml-parser": "^5.2.3", "geostyler-style": "^10.4.0", "lodash": "^4.17.21" } }, "sha512-V3jdyeSg9JFGVdFNr5uDxQdjaugR/l1J5eusqUGliq3Csl/8y4/8iUgJedrctbV3l9KyhDFbtXlnYpeYFPfNkg=="],
 
     "geostyler-style": ["geostyler-style@10.5.0", "", {}, "sha512-XnKrjm5XY2hBc98h5uKaAdYAgy+R9YuBzf8aGo4SPmYoPtAlnNaGWkRZB8j/vnuzQg8/kpGVOJ94o+42WUhuhw=="],
 
