@@ -10,7 +10,7 @@
         "geostyler-mapfile-parser": "^4.0.1",
         "geostyler-openlayers-parser": "^5.7.0",
         "geostyler-qgis-parser": "^4.1.0",
-        "geostyler-sld-parser": "^8.5.0",
+        "geostyler-sld-parser": "^9.0.0",
         "geostyler-style": "^12.0.0",
         "gradient-string": "^2.0.2",
         "minimist": "^1.2.8",
@@ -674,7 +674,7 @@
 
     "geostyler-qgis-parser": ["geostyler-qgis-parser@4.1.0", "", { "dependencies": { "buffer": "^6.0.3", "color": "^4.2.3", "core-js": "^3.26.1", "geostyler-cql-parser": "^4.0.0", "geostyler-style": "^10.0.0", "string_decoder": "^1.3.0", "timers": "^0.1.1", "xml2js": "^0.6.0" } }, "sha512-LuATAdIrL2+6D3sCXSqjbztOJdbuDdDuAF+FJpIoMlcITSpXIYe1aBjoE/roQzNM/DwWxqSMb3yHTaozkytvnA=="],
 
-    "geostyler-sld-parser": ["geostyler-sld-parser@8.5.0", "", { "dependencies": { "fast-xml-parser": "^5.2.3", "geostyler-style": "^12.0.0" } }, "sha512-b02BvloFweoC6m47wSKSjuO5jv9xd+JnuNBXLejFUlzAh2lo+VBVRPcThBJ2j3yBRAYJm3aSUfBUfjK/tP4+fA=="],
+    "geostyler-sld-parser": ["geostyler-sld-parser@9.0.0", "", { "dependencies": { "fast-xml-parser": "^5.2.3", "geostyler-style": "^12.0.0" } }, "sha512-KwBO9FvUhm/dWkPEA8XkUY2PC/14xbYuYlamN5fbyRFWRhyNkqGjEg4F85hQs6dd0qm6jwKS5hx+xtgbLb9rvw=="],
 
     "geostyler-style": ["geostyler-style@12.0.0", "", {}, "sha512-teNaY/a4tVrGAt7vqvrXi0mWBg7OxIdUKAtI0oik/IlO1GfOK4JPERfT/Z+6m1FwNLVNOEx0VvZ2JiTSevPrwQ=="],
 
