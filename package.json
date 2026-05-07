@@ -82,7 +82,7 @@
     "geostyler-mapfile-parser": "^4.0.1",
     "geostyler-openlayers-parser": "^5.7.0",
     "geostyler-qgis-parser": "^4.1.0",
-    "geostyler-sld-parser": "^8.5.0",
+    "geostyler-sld-parser": "^9.0.0",
     "geostyler-style": "^12.0.0",
     "gradient-string": "^2.0.2",
     "minimist": "^1.2.8",
