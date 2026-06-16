@@ -9,6 +9,10 @@ between various formats for styling of geographic data.
 npx geostyler-cli --output new-qgis-style.qml my-existing.sld
 ```
 
+## :rocket: GeoStyler Code Sprint 2026
+
+We are happy to announce the next **online-only** GeoStyler Code Sprint from **28.-30.09.2026**. Be part of it! More infos on https://geostyler.org.
+
 ## Requirements
 
 `geostyler-cli` can either be run as a standalone application or installed using [Node.js](https://nodejs.org/).
