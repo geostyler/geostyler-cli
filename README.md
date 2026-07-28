@@ -127,13 +127,15 @@ be a comma-separated string like `--sourceOptions 'version:1.1.0,debug:true'`.
 
 ## Developing
 
+Building the CLI from source requires [Bun](https://bun.com/docs/installation).
+
 In your clone of the repo, in the root directory:
 
 ```bash
-npm install   # get dependencies
-npm run build # build from possibly changed source
+bun install   # get dependencies
+bun run build # build from possibly changed source
 # now you can call your build like this:
-npm start -- -s sld -t qgis -o output.qml testdata/point_simplepoint.sld
+bun start -- -s sld -t qgis -o output.qml testdata/sld/point_simplepoint.sld
 ```
 
 ## <a name="funding"></a>Funding & financial sponsorship
