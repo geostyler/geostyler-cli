@@ -67,7 +67,7 @@
     "@types/node": "^22.15.29",
     "@typescript-eslint/eslint-plugin": "^8.33.1",
     "@typescript-eslint/parser": "^8.33.1",
-    "adm-zip": "^0.5.16",
+    "adm-zip": "^0.6.0",
     "eslint": "^9.28.0",
     "pkg": "^5.8.1",
     "rimraf": "^6.0.1",
